@@ -28,28 +28,53 @@ class Song:
         self.quarterNote = pattern.resolution
         self.name = filename
 
+        #print self.quarterNote
+
         for track in pattern:
-            lastTick = -1
-            currentTick = 0
-            currentNotes = set()
+            quarterBegin = 0
+            quarterEnd = self.quarterNote - 1
+            endTick = 0
+
             for event in track:
-                if type(event) is midi.SetTempoEvent:
-                    self.setTempo(event.data)
+                    endTick += event.tick
+                    if type(event) is midi.SetTempoEvent:
+                        self.setTempo(event.data)
+                    if type(event) is midi.EndOfTrackEvent:
+                        break
 
-                if type(event) is midi.NoteOffEvent:
+            currentTick = 0
+
+            while quarterBegin <= endTick:
+                currentTick = 0
+                currentNotes = set()
+                for event in track:
                     currentTick += event.tick
+                    if currentTick > quarterEnd:
+                            break
 
-                if currentTick - lastTick >= self.quarterNote and len(currentNotes) > 0:
+                    if currentTick >= quarterBegin and currentTick <= quarterEnd:
+                        if type(event) is midi.NoteOnEvent:
+                            currentNotes.add(event.data[0])
+                            #print currentNotes
+
+                        #if type(event) is midi.NoteOffEvent:
+
+
+                if len(currentNotes) > 0:
+                    #print "execute"
                     chord = music21.chord.Chord(currentNotes)
-                    self.song.append({"from": lastTick+1, "to": currentTick, "chord": self.chordNumber(chord)})
-                    lastTick = currentTick
+                    self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
 
-                if type(event) is midi.NoteOnEvent:
-                    currentNotes.add(event.data[0])
+                quarterBegin += self.quarterNote
+                quarterEnd = quarterBegin + self.quarterNote - 1
 
-                if type(event) is midi.NoteOffEvent:
-                    if event.data[0] in currentNotes:
-                        currentNotes.remove(event.data[0])
+
+                    #if type(event) is midi.NoteOnEvent:
+                        #currentNotes.add(event.data[0])
+
+                    #if type(event) is midi.NoteOffEvent:
+                        #if event.data[0] in currentNotes:
+                            #currentNotes.remove(event.data[0])
 
     def dataString(self):
         string = "-1"
@@ -59,6 +84,7 @@ class Song:
         return string
 
     def chordNumber(self, chord):
+        #print chord.pitchedCommonName
         name = chord.commonName
 
         stream = music21.stream.Stream()
@@ -96,7 +122,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("twinkle.mid", "C")
+twinkle = Song("bah.mid", "C")
 
 
 
