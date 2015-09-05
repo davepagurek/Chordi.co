@@ -1,1 +1,0 @@
-NUMBER_OF_INPUTS = 2
