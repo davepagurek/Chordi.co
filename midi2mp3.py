@@ -1,6 +1,6 @@
-import sys
 import subprocess
 def generateMP3(inputpath, outputpath, fontpath):
-    command = "fluidsynth -F output.wav %s  %s && lame output.wav %s && rm output.wav" % (fontpath,inputpath,outputpath)
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-    process.wait()
+    subprocess.call(["fluidsynth", "-F","output.wav",fontpath, inputpath])
+    subprocess.call(["lame", "output.wav", outputpath])
+    #subprocess.call(["rm","output.wav"])
+generateMP3("output.mid","output.mp3","~/Downloads/Gorts_DoubleDecker3/Gort\'s-DoubleDecker_J1.SF2")
