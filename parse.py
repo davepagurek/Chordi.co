@@ -9,6 +9,7 @@ class Song:
         self.song = []
         self.tempo = 120
         self.quarterNote = pattern.resolution
+        self.name = filename
 
         for track in pattern:
             lastTick = -1
@@ -44,6 +45,14 @@ class Song:
             return Song.notes[index]
         else:
             return "undef: " + str(index)
+    def save(self, songData):
+        f = open(self.name,'w')
+        dataString = ""
+        for x in songData:
+            dataString += " " + x
+        f.write(dataString)
+        f.close()
+
 
 
 
