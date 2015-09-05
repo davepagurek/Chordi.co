@@ -92,13 +92,14 @@ class Song:
         else:
             return "undef: " + str(index)
     def save(self):
-        f = open("training/"+self.name,'w')
+        f = open("training/"+self.name+".txt",'w')
         f.write(self.dataString())
         f.close()
 
 twinkle = Song("twinkle.mid", "C")
 thing2 = Song("thing2.mid","C")
-
+twinkle.save()
+thing2.save()
 
 print twinkle.dataString()
 print thing2.dataString()
