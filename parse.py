@@ -22,7 +22,7 @@ class Song:
     def __init__(self, filename, key):
         pattern = midi.read_midifile("midi/"+filename)
 
-        self.key = music21.key.Key("C")
+        self.key = music21.key.Key(key)
         self.song = []
         self.tempo = 120
         self.quarterNote = pattern.resolution
@@ -100,6 +100,7 @@ twinkle = Song("twinkle.mid", "C")
 thing2 = Song("thing2.mid","C")
 twinkle.save()
 thing2.save()
+
 
 print twinkle.dataString()
 print thing2.dataString()
