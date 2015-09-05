@@ -13,12 +13,13 @@ from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 
 import pdb
+import static
 
 n = FeedForwardNetwork()
 
 dataModel = SongFactory().getModels()
 
-ds = SupervisedDataSet(5, 1)
+ds = SupervisedDataSet(static.NUM_OF_INPUTS, 1)
 
 #adds samples from the data received from songfactory and the k
 for data in dataModel:
@@ -31,7 +32,7 @@ for data in dataModel:
 net = FeedForwardNetwork()
 
 #create the layers of the network
-inLayer = LinearLayer(5)
+inLayer = LinearLayer(static.NUM_OF_INPUTS)
 outLayer = LinearLayer(1)
 hidden1 = SigmoidLayer(5)
 
@@ -57,9 +58,9 @@ trainer.trainEpochs(25)
 #generate a song given an input sequence
 def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
-    song = [str(inputSequence[x])  for x in range(0,5)]
+    song = [str(inputSequence[x])  for x in range(0,static.NUM_OF_INPUTS)]
     nextout = 0
-    for x in range(0,16):
+    for x in range(0,128):
         nextout = int(net.activate(tuple(inputSequence)))
         song.append(str(nextout))
         inputSequence = inputSequence[1:]
@@ -70,4 +71,4 @@ def getSong(inputSequence):
     f.write(' '.join(song))
     f.close()
 
-getSong([4,2,1,2,3])
+getSong([4,2,4,5,7,3,5,4])
