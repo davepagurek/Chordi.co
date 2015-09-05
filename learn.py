@@ -13,9 +13,14 @@ from pybrain.structure.modules import BiasUnit
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 
+from pybrain.tools.xml.networkwriter import NetworkWriter
+from pybrain.tools.xml.networkreader import NetworkReader
+
 import random
 import pdb
 import static
+
+TRAINED_DATA_FILEPATH = 'trained.data'
 
 class Learn:
 
@@ -76,11 +81,15 @@ class Learn:
         trainer.trainEpochs(25)
 
     #generate a song given an input sequence
-    def getSong(self, inputSequence):
+    def getSong(self, inputSequence, songLength = 64):
+        if self.net is None:
+            print "Cannot create from nothing"
+            return
+
         inputSequence = [x for x in inputSequence]
         song = [str(inputSequence[x])  for x in range(0, static.NUM_OF_INPUTS)]
         nextout = 0
-        for x in range(0, 64):
+        for x in range(0, songLength):
             nextout = int(self.net.activate(tuple(inputSequence)))
 
             # just to shake it up a little if we get 4 of the same chord in a row
@@ -103,11 +112,27 @@ class Learn:
         f.write(' '.join(song[4:]))
         f.close()
 
+    # Save trained data to file for later usage
+    def saveToFile(self):
+        if self.net is not None:
+            NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH)
+
+        else:
+            print "Cannot save nothing"
+
+    # Load trained data from file
+    def loadFromFile(self):
+        try:
+            self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH)
+
+        except:
+            print "Could not find or open file"
+
 def run():
 
     learner = Learn()
-    learner.train()
-    learner.getSong([0, 7 ,9 ,0])
+    learner.loadFromFile()
+    learner.getSong([0, 2 ,4 ,0], 128)
 
 if __name__ == "__main__":
     run()
