@@ -70,8 +70,7 @@ trainer.trainEpochs(25)
 #generate a song given an input sequence
 def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
-    #song = [str(inputSequence[x])  for x in range(0, static.NUM_OF_INPUTS)]
-    song = []
+    song = [str(inputSequence[x])  for x in range(0, static.NUM_OF_INPUTS)]
     nextout = 0
     for x in range(0, 64):
         nextout = int(net.activate(tuple(inputSequence)))
@@ -91,9 +90,9 @@ def getSong(inputSequence):
         inputSequence = inputSequence[1:]
         inputSequence.append(nextout)
 
-    print song
+    print song[4:]
     f = open('output.txt', 'w')
-    f.write(' '.join(song))
+    f.write(' '.join(song[4:]))
     f.close()
 
-getSong([0,7,9,0])
+getSong([7, 9, 7, 9])
