@@ -2,9 +2,7 @@
 Procedural music, taught with data from real artists
 
 ## Dependencies
-```
-python-midi
-```
+Check requirements.txt
 
 ## Chord enumeration
 ```
