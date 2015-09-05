@@ -26,6 +26,12 @@ trainer.trainEpochs(100)
 for x in dataModel:
     print x[0],"-->",round(net.activate(x[0]))
 
-def getSong():
-    song = []
+def getSong(inputSequence):
+    song = [inputSequence[x] for x in range(0,5)]
+    nextout = 0
+    #iterate for 15 notes
+    for x in range(0,15):
+        nextout = net.activate(inputSequence)
+        song.append(nextout)
+        inputSequence = tuple([inputSequence[x] for x in range(1,5),nextout])
     return song
