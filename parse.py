@@ -6,7 +6,7 @@ class Song:
     def __init__(self, filename):
         self.song = []
         self.tempo = 120
-
+        self.name = filename
         pattern = midi.read_midifile("Midi Thingies/twinkle.mid")
 
         for track in pattern:
@@ -42,6 +42,14 @@ class Song:
             return notes[index]
         else:
             return "undef: " + str(index)
+    def save(self, songData):
+        f = open(self.name,'w')
+        dataString = ""
+        for x in songData:
+            dataString += x
+        f.write(dataString)
+        f.close()
+
 
 
 
