@@ -4,10 +4,11 @@ class Song:
     notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
     def __init__(self, filename):
+        pattern = midi.read_midifile("Midi Thingies/twinkle.mid")
+
         self.song = []
         self.tempo = 120
-
-        pattern = midi.read_midifile("Midi Thingies/twinkle.mid")
+        self.quarterNote = pattern.resolution
 
         for track in pattern:
             lastTick = -1
@@ -17,24 +18,25 @@ class Song:
                 if type(event) is midi.SetTempoEvent:
                     self.setTempo(event.data)
 
-                if type(event) is midi.NoteOnEvent:
-                    currentNotes.add(self.noteFromMidi(event.data[0]))
+                if type(event) is midi.NoteOnEvent or type(event) is midi.NoteOffEvent:
                     currentTick += event.tick
 
-                if type(event) is midi.NoteOffEvent:
-                    currentNotes.remove(self.noteFromMidi(event.data[0]))
-                    currentTick += event.tick
-
-                if currentTick != lastTick:
-                    self.song += {"from": lastTick+1, "to": currentTick, "notes": currentNotes.copy()}
+                if currentTick - lastTick >= self.quarterNote:
+                    self.song.append({"from": lastTick+1, "to": currentTick, "notes": currentNotes.copy()})
                     lastTick = currentTick
 
+                if type(event) is midi.NoteOnEvent:
+                    currentNotes.add(event.data[0])
+
+                if type(event) is midi.NoteOffEvent:
+                    if event.data[0] in currentNotes:
+                        currentNotes.remove(event.data[0])
+
     def setTempo(self, data):
-        print data
         timePerQuarter = ""
         for digit in data:
             timePerQuarter += hex(digit)[2:]
-        self.tempo = 60000000/int(timePerQuarter, 16)
+        self.tempo = 60000000/self.quarterNote
 
     def noteFromMidi(self, num):
         index = ((num-21)%12 - 3) % 12
