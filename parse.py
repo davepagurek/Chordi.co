@@ -53,10 +53,3 @@ class Song:
             dataString += " " + x
         f.write(dataString)
         f.close()
-
-
-
-
-twinkle = Song("Midi Thingies/twinkle.mid")
-print twinkle.song
-
