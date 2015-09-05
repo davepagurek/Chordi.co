@@ -112,4 +112,4 @@ def toMidi(input, outfile, instrument=27, tempo=120):
 
     midi.write_midifile(outfile, pattern)
 
-toMidi([-1, 1, 11, 7, 14], "test.mid")
+toMidi([-1, 1, 11, 7, 14], "output.mid")
