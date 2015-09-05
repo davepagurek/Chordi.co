@@ -20,7 +20,7 @@ class Song:
     }
 
     def __init__(self, filename, key):
-        pattern = midi.read_midifile("Midi Thingies/twinkle.mid")
+        pattern = midi.read_midifile("midi/"+filename)
 
         self.key = music21.key.Key("C")
         self.song = []
@@ -91,14 +91,11 @@ class Song:
             return Song.notes[index]
         else:
             return "undef: " + str(index)
-    def save(self, songData):
-        f = open(self.name,'w')
+    def save(self):
+        f = open("training/"+self.name,'w')
         f.write(self.dataString())
         f.close()
 
-
-
-
-twinkle = Song("Midi Thingies/twinkle.mid", "C")
+twinkle = Song("twinkle.mid", "C")
 print twinkle.dataString()
 
