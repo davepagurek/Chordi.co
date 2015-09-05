@@ -26,7 +26,7 @@ class Song:
                     currentTick += event.tick
 
                 if currentTick != lastTick:
-                    self.song += {from: lastTick+1, to: currentTick, notes: currentNotes.copy()}
+                    self.song += {"from": lastTick+1, "to": currentTick, "notes": currentNotes.copy()}
                     lastTick = currentTick
 
     def __dataToBPM(data):
