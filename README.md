@@ -11,12 +11,12 @@ midi data to generate a song. There two  hidden layers present and
 
 ## File function
 The following files have the corresponding functions.
-| File Name | Description |
-| --------------------- |
-| tomidi.py | Converts an intermediate text file with midi chord data to a midi
-file to be played. |
-| --------------------- |
-| learn.py | Creates an intermediate file from the all the trained data. |
+<table>
+  <tr><td>File Name</td> <td>Description</td></tr>
+  <tr><td>tomidi.py</td> <td>Converts an intermediate text file with midi chord
+  data to a midi file to be played</td></tr>
+  <tr><td>learn.py</td>  <td>Creates an intermediate file from the all the trained data.</td></tr>
+</table>
 ## Chord enumeration
 ```
 -1   (start)
