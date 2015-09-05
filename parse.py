@@ -1,5 +1,6 @@
 import midi
 import music21
+import sys
 
 class Song:
     chordMap = {
@@ -174,8 +175,9 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("life.mid", "c")
-twinkle.save()
-print twinkle.dataString()
-print twinkle.key.mode
+if len(sys.argv) > 1:
+    twinkle = Song(sys.argv[1], sys.argv[2])
+    twinkle.save()
+    print twinkle.dataString()
+    print twinkle.key.mode
 
