@@ -1,13 +1,32 @@
 import midi
+import music21
 
 class Song:
-    notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    chordMap = {
+        "M1": 0,
+        "m1": 1,
+        "o2": 2,
+        "m2": 3,
+        "m3": 4,
+        "M3": 5,
+        "m4": 6,
+        "M4": 7,
+        "m5": 8,
+        "M5": 9,
+        "M5^7": 10,
+        "m6": 11,
+        "M6": 12,
+        "o7": 13
+    }
 
-    def __init__(self, filename):
+    def __init__(self, filename, key):
+        pattern = midi.read_midifile("midi/"+filename)
+
+        self.key = music21.key.Key("C")
         self.song = []
         self.tempo = 120
-
-        pattern = midi.read_midifile("Midi Thingies/twinkle.mid")
+        self.quarterNote = pattern.resolution
+        self.name = filename
 
         for track in pattern:
             lastTick = -1
@@ -15,36 +34,73 @@ class Song:
             currentNotes = set()
             for event in track:
                 if type(event) is midi.SetTempoEvent:
-                    self.tempo = __dataToBPM(event.data)
-
-                if type(event) is midi.NoteOnEvent:
-                    set.add(__noteFromMidi(event.data[0]))
-                    currentTick += event.tick
+                    self.setTempo(event.data)
 
                 if type(event) is midi.NoteOffEvent:
-                    set.remove(__noteFromMidi(event.data[0]))
                     currentTick += event.tick
 
-                if currentTick != lastTick:
-                    self.song += {"from": lastTick+1, "to": currentTick, "notes": currentNotes.copy()}
+                if currentTick - lastTick >= self.quarterNote and len(currentNotes) > 0:
+                    chord = music21.chord.Chord(currentNotes)
+                    self.song.append({"from": lastTick+1, "to": currentTick, "chord": self.chordNumber(chord)})
                     lastTick = currentTick
 
-    def __dataToBPM(data):
-        print data
+                if type(event) is midi.NoteOnEvent:
+                    currentNotes.add(event.data[0])
+
+                if type(event) is midi.NoteOffEvent:
+                    if event.data[0] in currentNotes:
+                        currentNotes.remove(event.data[0])
+
+    def dataString(self):
+        string = "-1"
+        for chord in self.song:
+            string += " " + str(chord.get("chord"))
+        string += " 14"
+        return string
+
+    def chordNumber(self, chord):
+        name = chord.commonName
+
+        stream = music21.stream.Stream()
+        stream.append(self.key)
+        stream.append(chord)
+
+        chordNumber = chord.scaleDegrees[0][0]
+        chordName = ""
+        if name == "major triad":
+            chordName = "M" + str(chordNumber)
+        elif name == "minor triad":
+            chordName = "m" + str(chordNumber)
+        elif name == "dominant seventh chord":
+            chordName = "M" + str(chordNumber) + "^7"
+        else:
+            print "Couldn't find: ", name
+            chordName = "M" + str(chordNumber)
+
+        return Song.chordMap.get(chordName, 1)
+
+    def setTempo(self, data):
         timePerQuarter = ""
         for digit in data:
             timePerQuarter += hex(digit)[2:]
-        return 60000000/int(timePerQuarter, 16)
+        self.tempo = 60000000/self.quarterNote
 
-    def __noteFromMidi(num):
+    def noteFromMidi(self, num):
         index = ((num-21)%12 - 3) % 12
-        if 0 <= index < len(notes):
-            return notes[index]
+        if 0 <= index < len(Song.notes):
+            return Song.notes[index]
         else:
             return "undef: " + str(index)
+    def save(self):
+        f = open("training/"+self.name+".txt",'w')
+        f.write(self.dataString())
+        f.close()
 
+twinkle = Song("twinkle.mid", "C")
+thing2 = Song("thing2.mid","C")
+twinkle.save()
+thing2.save()
 
-
-twinkle = Song("Midi Thingies/twinkle.mid")
-print twinkle.song
+print twinkle.dataString()
+print thing2.dataString()
 
