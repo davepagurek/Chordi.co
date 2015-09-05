@@ -1,4 +1,5 @@
 import midi
+import music21
 
 class Song:
     notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
@@ -23,7 +24,7 @@ class Song:
                     currentTick += event.tick
 
                 if currentTick - lastTick >= self.quarterNote:
-                    self.song.append({"from": lastTick+1, "to": currentTick, "notes": currentNotes.copy()})
+                    self.song.append({"from": lastTick+1, "to": currentTick, "notes": music21.chord.Chord(currentNotes).pitchedCommonName})
                     lastTick = currentTick
 
                 if type(event) is midi.NoteOnEvent:
