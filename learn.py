@@ -107,10 +107,12 @@ class Learn:
             inputSequence = inputSequence[1:]
             inputSequence.append(nextout)
 
-        print song[4:]
+        '''print song[4:]
         f = open('output.txt', 'w')
         f.write(' '.join(song[4:]))
-        f.close()
+        f.close()'''
+        
+        return song[4:]
 
     # Save trained data to file for later usage
     def saveToFile(self):
