@@ -16,7 +16,19 @@ class Song:
         "M7^7": 10,
         "m9": 11,
         "M9": 12,
-        "o11": 13
+        "o11": 13,
+        "0": 0,
+        "1": 0,
+        "2": 3,
+        "3": 0,
+        "4": 4,
+        "5": 7,
+        "6": 0,
+        "7": 9,
+        "8": 0,
+        "9": 11,
+        "10": 0,
+        "11": 13
 
         # "M1": 0,
         # "m1": 1,
@@ -44,9 +56,7 @@ class Song:
         self.quarterNote = pattern.resolution
         self.name = filename
 
-        print self.key
         interval = music21.interval.notesToInterval(self.key.tonic, music21.pitch.Pitch('C5'))
-        print interval
 
         for track in pattern:
             quarterBegin = 0
@@ -125,7 +135,7 @@ class Song:
             chordName = "M" + str(chordNumber) + "^7"
         else:
             print "Couldn't find: ", name
-            chordName = "M" + str(chordNumber)
+            chordName = str(chordNumber)
 
         return Song.chordMap.get(chordName, 0)
 
