@@ -7,8 +7,8 @@ chords = {
     "1": [midi.C_4, midi.Ds_4, midi.G_4],
     "2": [midi.D_4, midi.E_4, midi.A_5],
     "3": [midi.D_4, midi.F_4, midi.A_5],
-    "4": [midi.E_4, midi.Fs_4, midi.B_5],
-    "5": [midi.E_4, midi.G_4, midi.B_5],
+    "4": [midi.E_4, midi.G_4, midi.B_5],
+    "5": [midi.E_4, midi.Gs_4, midi.B_5],
     "6": [midi.F_4, midi.Gs_4, midi.C_5],
     "7": [midi.F_4, midi.A_5, midi.C_5],
     "8": [midi.G_4, midi.As_5, midi.D_5],
@@ -20,7 +20,7 @@ chords = {
 }
 
 chordInput = []
-with open ("output.txt", "r") as data:
+with open ("training/beethoven5.mid.txt", "r") as data:
     chordInput = data.read().replace("-1", "").replace("14", "").split(' ')
 
 pattern = midi.Pattern(resolution=quarterNote)
