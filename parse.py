@@ -22,7 +22,7 @@ class Song:
     def __init__(self, filename, key):
         pattern = midi.read_midifile("midi/"+filename)
 
-        self.key = music21.key.Key("C")
+        self.key = music21.key.Key(key)
         self.song = []
         self.tempo = 120
         self.quarterNote = pattern.resolution
@@ -47,6 +47,7 @@ class Song:
             while quarterBegin <= endTick:
                 currentTick = 0
                 currentNotes = set()
+                noteEnds = set()
                 for event in track:
                     currentTick += event.tick
                     if currentTick > quarterEnd:
@@ -57,12 +58,14 @@ class Song:
                             currentNotes.add(event.data[0])
                             #print currentNotes
 
-                        #if type(event) is midi.NoteOffEvent:
-
+                        if type(event) is midi.NoteOffEvent:
+                            noteEnds.add(event.data[0])
 
                 if len(currentNotes) > 0:
-                    #print "execute"
                     chord = music21.chord.Chord(currentNotes)
+                    self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
+                elif len(noteEnds) > 0:
+                    chord = music21.chord.Chord(noteEnds)
                     self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
 
                 quarterBegin += self.quarterNote
@@ -91,7 +94,8 @@ class Song:
         stream.append(self.key)
         stream.append(chord)
 
-        chordNumber = chord.scaleDegrees[0][0]
+        print chord.findRoot()
+        chordNumber = chord.findRoot().midi%12
         chordName = ""
         if name == "major triad":
             chordName = "M" + str(chordNumber)
@@ -122,6 +126,6 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("bah.mid", "C")
+twinkle = Song("twinkle2.mid", "C")
 print twinkle.dataString()
 
