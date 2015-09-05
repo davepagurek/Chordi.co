@@ -8,7 +8,7 @@
     <title>Chordi</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -63,7 +63,7 @@
       margin-top: 5em;
       text-align: center;
       padding: 0px 10px 20px 10px;
-      border: 2px solid black; 
+      border: 2px solid black;
     }
     .marginBottom {
       margin-bottom: 30px;
@@ -108,7 +108,7 @@
       <div class="row" class="center">
         <h1 class="center title"></h1>
         <p class="lead center">Welcome to Chordi. We create beautiful music.</p>
-          <audio id="audioElement" src="songs/Chasing.mp3"></audio>
+          <audio id="audioElement"></audio>
           <div id="buttons">
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
@@ -123,7 +123,7 @@
         <h1 class="center">Contact us!
         </h1>
         <p class="lead center">Email Bob at bobbanks2014@gmail.com</p>
-      
+
       </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -135,7 +135,9 @@
     </script>
     <script>
       $(document).ready(function () {
-
+          $.ajax({method:"GET", url:"http://127.0.0.1:5000/music"}).done(function(msg){
+              $("#audioElement").attr("src",msg);
+          });
       var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       var audioElement = document.getElementById('audioElement');
       var audioSrc = audioCtx.createMediaElementSource(audioElement);
@@ -155,7 +157,6 @@
       function createSvg(parent, height, width) {
         return d3.select(parent).append('svg').attr('height', height).attr('width', width);
       }
-
       var svg = createSvg('#graph', svgHeight, svgWidth);
 
       // Create our initial D3 chart.
