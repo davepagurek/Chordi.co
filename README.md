@@ -1,6 +1,11 @@
 # BeatBot
 Procedural music, taught with data from real artists
 
+## Dependencies
+```
+python-midi
+```
+
 ## Chord enumeration
 ```
 -2   (start)
