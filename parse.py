@@ -46,7 +46,7 @@ class Song:
         f = open(self.name,'w')
         dataString = ""
         for x in songData:
-            dataString += x
+            dataString += " " + x
         f.write(dataString)
         f.close()
 
