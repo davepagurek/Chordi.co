@@ -5,28 +5,37 @@ from pybrain.supervised.trainers import BackpropTrainer
 from pybrain.datasets import SupervisedDataSet
 
 dataModel = [
-    [(0,0,0), (0,)],
-    [(1,1,1), (1,)],
+    [(-1, 0, 0, 0, 0,), (5,)],
+    [(0, 0, 0, 0, 5,), (5,)],
+    [(0, 0, 0, 5, 5,), (5,)],
+    [(0, 0, 5, 5, 5,), (5,)],
+    [(0, 5, 5, 5, 5,), (2,)],
+    [(5, 5, 5, 5, 2,), (2,)],
+    [(5, 5, 5, 2, 2,), (2,)],
+    [(5, 5, 2, 2, 2,), (2,)],
+    [(5, 2, 2, 2, 2,), (9,)],
+    [(2, 2, 2, 2, 9,), (9,)],
+    [(2, 2, 2, 9, 9,), (9,)],
+    [(2, 2, 9, 9, 9,), (9,)],
+    [(2, 9, 9, 9, 9,), (14,)]
 ]
 
-ds = SupervisedDataSet(3, 1)
+ds = SupervisedDataSet(5, 1)
 for input, target in dataModel:
          ds.addSample(input, target)
 
-import random
-random.seed()
-trainingSet = SupervisedDataSet(3, 1);
-for ri in range(0,1000):
-    input,target = dataModel[random.getrandbits(2)];
-    trainingSet.addSample(input, target)
+trainingSet = SupervisedDataSet(5, 1);
 
 from pybrain.tools.shortcuts import buildNetwork
-net = buildNetwork(3, 10, 1, bias=True)
+net = buildNetwork(5, 10, 1, bias=True)
 
 from pybrain.supervised.trainers import BackpropTrainer
 trainer = BackpropTrainer(net, ds, learningrate = 0.001, momentum = 0.99)
 
-trainer.trainEpochs(1000)
+trainer.trainEpochs(100)
 
 for x in dataModel:
     print x[0],"-->",round(net.activate(x[0]))
+
+def getSong():
+    return "midi yay"
