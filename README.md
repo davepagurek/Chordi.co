@@ -8,8 +8,7 @@ python-midi
 
 ## Chord enumeration
 ```
--2   (start)
--1   (end)
+-1   (start)
 0    M1
 1    m1
 2    o2
@@ -24,6 +23,7 @@ python-midi
 11   m6
 12   M6
 13   o7
+14   (end)
 ```
 
 ## Basic music theory
