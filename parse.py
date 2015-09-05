@@ -40,7 +40,7 @@ class Song:
         self.key = music21.key.Key(key)
         self.song = []
         self.tempo = 120
-        self.quarterNote = pattern.resolution
+        self.quarterNote = pattern.resolution * 2
         self.name = filename
 
         #print self.quarterNote
@@ -101,6 +101,7 @@ class Song:
     def dataString(self):
         string = "-1"
         for chord in self.song:
+            string += " " + str(chord.get("chord"))
             string += " " + str(chord.get("chord"))
         string += " 14"
         return string
@@ -173,7 +174,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("hotel.mid", "b")
+twinkle = Song("paradise.mid", "b")
 twinkle.save()
 print twinkle.dataString()
 print twinkle.key.mode
