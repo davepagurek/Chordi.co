@@ -1,6 +1,6 @@
 import midi
 
-def toMidi(input, outfile, instrument=27, tempo=120):
+def toMidi(songString, outfile, instrument=27, tempo=120):
 
     quarterNote = 96
 
@@ -24,7 +24,7 @@ def toMidi(input, outfile, instrument=27, tempo=120):
     }
 
     chordInput = []
-    chordInput = [c for c in input if 0 <= c <= 13]
+    chordInput = [c for c in songString if 0 <= c <= 13]
 
     pattern = midi.Pattern(resolution=quarterNote)
     track = midi.Track()
