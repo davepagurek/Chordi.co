@@ -87,7 +87,7 @@ class Learn:
             return
 
         inputSequence = [x for x in inputSequence]
-        song = [str(inputSequence[x])  for x in range(0, static.NUM_OF_INPUTS)]
+        song = [inputSequence[x]  for x in range(0, static.NUM_OF_INPUTS)]
         nextout = 0
         for x in range(0, songLength):
             nextout = int(self.net.activate(tuple(inputSequence)))
@@ -103,7 +103,7 @@ class Learn:
 
                 nextout = int(min(recurring, key = recurring.get))
 
-            song.append(str(nextout))
+            song.append(nextout)
             inputSequence = inputSequence[1:]
             inputSequence.append(nextout)
 
@@ -111,7 +111,7 @@ class Learn:
         f = open('output.txt', 'w')
         f.write(' '.join(song[4:]))
         f.close()'''
-        
+
         return song[4:]
 
     # Save trained data to file for later usage
@@ -131,7 +131,6 @@ class Learn:
             print "Could not find or open file"
 
 def run():
-
     learner = Learn()
     learner.loadFromFile()
     learner.getSong([0, 2 ,4 ,0], 128)
