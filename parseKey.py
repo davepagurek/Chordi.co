@@ -143,9 +143,9 @@ class Song:
             return "undef: " + str(index)
     def save(self):
         f = open("training/"+self.name+".txt",'w')
-        f.write(self.dataString())  
+        f.write(self.dataString())
         f.close()
 
-twinkle = Song("dear.mid")
+twinkle = Song("hotel.mid")
 print twinkle.dataString()
 

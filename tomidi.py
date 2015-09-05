@@ -5,7 +5,8 @@ quarterNote = 96
 chords = {
     "0": [midi.C_4, midi.E_4, midi.G_4],
     "1": [midi.C_4, midi.Ds_4, midi.G_4],
-    "2": [midi.D_4, midi.E_4, midi.A_5],
+    # "2": [midi.D_4, midi.E_4, midi.A_5],
+    "2": [midi.D_4, midi.F_4, midi.A_5],
     "3": [midi.D_4, midi.F_4, midi.A_5],
     "4": [midi.E_4, midi.G_4, midi.B_5],
     "5": [midi.E_4, midi.Gs_4, midi.B_5],
