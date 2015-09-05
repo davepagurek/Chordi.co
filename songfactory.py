@@ -8,5 +8,6 @@ class SongFactory:
         for x in files:
             tempModel = open("training/"+x,'r')
             self.models.append(SongModel(tempModel.readline()))
+            
     def getModels(self):
         return self.models

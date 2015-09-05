@@ -6,12 +6,12 @@ from pybrain.datasets import SupervisedDataSet
 from songfactory import SongFactory
 from model import SongModel
 
-
-dataModel = songfactory.getModels()
+dataModel = SongFactory().getModels()
 
 ds = SupervisedDataSet(5, 1)
-for input, target in dataModel:
-         ds.addSample(input, target)
+for data in dataModel:
+    for input, target in data.model:
+        ds.addSample(input, target)
 
 trainingSet = SupervisedDataSet(5, 1);
 
@@ -22,9 +22,6 @@ from pybrain.supervised.trainers import BackpropTrainer
 trainer = BackpropTrainer(net, ds, learningrate = 0.001, momentum = 0.99)
 
 trainer.trainEpochs(100)
-
-for x in dataModel:
-    print x[0],"-->",round(net.activate(x[0]))
 
 def getSong():
     song = []
