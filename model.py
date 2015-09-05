@@ -1,5 +1,7 @@
+import static
+
 class SongModel:
-	def __init__(self, songString, preChords = 5):
+	def __init__(self, songString, preChords = static.NUM_OF_INPUTS):
 
 		# list that contains enumerated chords
 		numbers = songString.split(' ')
