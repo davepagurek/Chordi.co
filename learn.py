@@ -66,21 +66,33 @@ net.sortModules()
 #trainer to edit the network
 trainer = BackpropTrainer(net, ds, learningrate = 0.003)
 
-trainer.trainEpochs(100)
+trainer.trainEpochs(25)
 #generate a song given an input sequence
 def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
-    song = [str(inputSequence[x])  for x in range(0,static.NUM_OF_INPUTS)]
+    song = [str(inputSequence[x])  for x in range(0, static.NUM_OF_INPUTS)]
     nextout = 0
-    for x in range(0,32):
+    for x in range(0, 64):
         nextout = int(net.activate(tuple(inputSequence)))
+
+        # just to shake it up a little if we get 4 of the same chord in a row
+        if nextout == inputSequence[-1] and nextout == inputSequence[-2] and nextout == inputSequence[-3]:
+            recurring = dict()
+            for i in song:
+                if i in recurring:
+                    recurring[i] += 1
+                else:
+                    recurring[i] = 1
+
+            nextout = int(min(recurring, key = recurring.get))
+
         song.append(str(nextout))
         inputSequence = inputSequence[1:]
         inputSequence.append(nextout)
 
-    print song
+    print song[4:]
     f = open('output.txt', 'w')
-    f.write(' '.join(song))
+    f.write(' '.join(song[4:]))
     f.close()
 
-getSong([0, 7, 9, 0])
+getSong([7, 9, 7, 9])

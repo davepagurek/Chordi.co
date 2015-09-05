@@ -100,6 +100,7 @@
         <div class="col-md-6 col-md-offset-3" id="topRow">
           <h1 class="marginTop">Chordi</h1>
           <p class="lead">Procedural music, taught with data from real artists</p>
+          <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
         </div>
       </div>
     </div>
@@ -191,6 +192,13 @@
       // Run the loop
       renderChart();
 
+      });
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#scroll').click(function() {
+              $('body').focus({#('#scrollTop: +700}, 1000);
+          })
       });
     </script>
   </body>
