@@ -2,7 +2,14 @@
 Procedural music, taught with data from real artists
 
 ## Dependencies
-Check requirements.txt
+Check requirements.txt for python dependencies
+
+To convert to mp3, run the following:
+```
+brew install libsndfile lame
+brew install --with-libsndfile fluidsynth
+```
+
 
 ## Neural Network structure
 The following program uses a Feed Forward Neural network that is trained with
