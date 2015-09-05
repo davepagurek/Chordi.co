@@ -6,10 +6,10 @@ from midi2mp3 import generateMP3
 
 import json
 
-MIDI_TEMP_PATH = 'output.mid'
-MP3_TEMP_PATH = 'output.mp3'
+MIDI_TEMP_PATH = 'songs/output.mid'
+MP3_TEMP_PATH = 'songs/output.mp3'
 FONT_PATH = 'Gort\'s-DoubleDecker_J1.SF2'
-
+BASE_URL = 'http://127.0.0.1:5000/'
 app = Flask(__name__)
 @app.route('/')
 def server():
@@ -22,7 +22,7 @@ def music_function():
     song = learner.getSong(getStartSequence())
     toMidi(song, MIDI_TEMP_PATH)
     generateMP3(MIDI_TEMP_PATH, MP3_TEMP_PATH, FONT_PATH)
-    return json.dumps(song)
+    return BASE_URL + MP3_TEMP_PATH
 
 @app.route('/train')
 def train_function():
