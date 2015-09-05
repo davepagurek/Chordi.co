@@ -61,7 +61,9 @@
     }
     #graph {
       margin-top: 5em;
-      text-align: center; 
+      text-align: center;
+      padding: 0px 10px 20px 10px;
+      border: 2px solid black; 
     }
     .marginBottom {
       margin-bottom: 30px;
@@ -107,10 +109,10 @@
         <p class="lead center">Welcome to Chordi. We create beautiful music.</p>
           <audio id="audioElement" src="Chasing.mp3"></audio>
           <div id="buttons">
-            <button onclick="document.getElementById('audioElement').play()">Play the Audio</button>
-            <button onclick="document.getElementById('audioElement').pause()">Pause the Audio</button>
-            <button onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
-            <button onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
           </div>
           <div id="graph"></div>
       </div>
@@ -146,7 +148,7 @@
       var frequencyData = new Uint8Array(200);
 
       var svgHeight = '300';
-      var svgWidth = '1200';
+      var svgWidth = '1000';
       var barPadding = '1';
 
       function createSvg(parent, height, width) {
