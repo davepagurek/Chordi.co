@@ -23,9 +23,6 @@ trainer = BackpropTrainer(net, ds, learningrate = 0.001, momentum = 0.99)
 
 trainer.trainEpochs(100)
 
-for x in dataModel:
-    print x[0],"-->",round(net.activate(x[0]))
-
 def getSong(inputSequence):
     song = [inputSequence[x] for x in range(0,5)]
     nextout = 0
