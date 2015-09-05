@@ -153,7 +153,7 @@ class Song:
             else:
                 chordName = "M" + str(chordNumber)
 
-        # print chordName
+        print name
         return Song.chordMap.get(chordName, 0)
 
     def setTempo(self, data):
@@ -173,7 +173,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("coldplay-clocks.mid", "E-")
+twinkle = Song("hotel.mid", "b")
 twinkle.save()
 print twinkle.dataString()
 print twinkle.key.mode

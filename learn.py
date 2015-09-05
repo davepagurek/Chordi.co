@@ -38,8 +38,8 @@ net.addModule(bias)
 #create the layers of the network
 inLayer = LinearLayer(static.NUM_OF_INPUTS)
 outLayer = LinearLayer(1)
-hidden1 = SigmoidLayer(50)
-hidden2 = SigmoidLayer(6)
+hidden1 = SigmoidLayer(25)
+hidden2 = SigmoidLayer(5)
 
 #add the layers
 net.addInputModule(inLayer)
@@ -83,4 +83,4 @@ def getSong(inputSequence):
     f.write(' '.join(song))
     f.close()
 
-getSong([4,2,4,5,7,3,5,4])
+getSong([0,0,0,0,0,0,0,0])

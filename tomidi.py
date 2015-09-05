@@ -5,7 +5,8 @@ quarterNote = 96
 chords = {
     "0": [midi.C_4, midi.E_4, midi.G_4],
     "1": [midi.C_4, midi.Ds_4, midi.G_4],
-    "2": [midi.D_4, midi.E_4, midi.A_5],
+    # "2": [midi.D_4, midi.E_4, midi.A_5],
+    "2": [midi.D_4, midi.F_4, midi.A_5],
     "3": [midi.D_4, midi.F_4, midi.A_5],
     "4": [midi.E_4, midi.G_4, midi.B_5],
     "5": [midi.E_4, midi.Gs_4, midi.B_5],
@@ -21,7 +22,7 @@ chords = {
 }
 
 chordInput = []
-with open ("training/coldplay-clocks.mid.txt", "r") as data:
+with open ("output.txt", "r") as data:
     chordInput = data.read().replace("-1", "").replace("14", "").split(' ')
 
 pattern = midi.Pattern(resolution=quarterNote)
