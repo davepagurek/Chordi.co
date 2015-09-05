@@ -10,6 +10,9 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,7 +44,11 @@
       font-weight: bold;
     }
     .marginTop {
-      margin-top: 30px;
+      margin-top: 50px;
+      font-size: 60px !important; 
+    }
+    .lead {
+      font-size: 30px !important;
     }
     .center {
       text-align: center;
@@ -100,7 +107,7 @@
         <div class="col-md-6 col-md-offset-3" id="topRow">
           <h1 class="marginTop">Chordi</h1>
           <p class="lead">Procedural music, taught with data from real artists</p>
-          <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
+          <button id="scroll" type="button" class="btn btn-success">Try it now!</button>
         </div>
       </div>
     </div>
@@ -110,10 +117,19 @@
         <p class="lead center">Welcome to Chordi. We create beautiful music.</p>
           <audio id="audioElement" src="Chasing.mp3"></audio>
           <div id="buttons">
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="flase">
+                Instruments <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href='#'>Percussion</a></li>
+                <li><a href='#'>Piano</a></li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-success" onclick="document.getElementById('audioElement').play()">Generate Music</button>
+            <button type="button" class="btn btn-danger" onclick="document.getElementById('audioElement').pause()">Pause</button>
+            <button type="button" class="btn btn-warning" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
+            <button type="button" class="btn btn-warning" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
           </div>
           <div id="graph"></div>
       </div>
@@ -127,9 +143,6 @@
       </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script>
       $(".contentContainer").css("min-height",$(window).height());
     </script>
@@ -192,6 +205,15 @@
       // Run the loop
       renderChart();
 
+      });
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#scroll').click(function() {
+              $('body').animate({
+                scrollTop: $('#chordi').offset().top
+              }, 1000);
+          })
       });
     </script>
   </body>
