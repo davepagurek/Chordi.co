@@ -22,11 +22,7 @@ chords = {
 }
 
 chordInput = []
-<<<<<<< HEAD
 with open ("output.txt", "r") as data:
-=======
-with open ("training/life.mid.txt", "r") as data:
->>>>>>> 59c1173ddd5de4362ac0e66ffa22a6546c45bd29
     chordInput = data.read().replace("-1", "").replace("14", "").split(' ')
 
 pattern = midi.Pattern(resolution=quarterNote)

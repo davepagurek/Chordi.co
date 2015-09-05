@@ -66,7 +66,7 @@ net.sortModules()
 #trainer to edit the network
 trainer = BackpropTrainer(net, ds, learningrate = 0.003)
 
-trainer.trainEpochs(100)
+trainer.trainEpochs(25)
 #generate a song given an input sequence
 def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
