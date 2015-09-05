@@ -173,7 +173,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("coldplay-clocks.mid", "E-")
+twinkle = Song("ABBA_-_Waterloo.mid", "C")
 twinkle.save()
 print twinkle.dataString()
 print twinkle.key.mode
