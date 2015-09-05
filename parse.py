@@ -44,55 +44,59 @@ class Song:
         self.name = filename
 
         #print self.quarterNote
+        track = []
+        for t in pattern:
+            track += t
+        track.sort(key=lambda x: x.tick)
+        print track
 
-        for track in pattern:
-            quarterBegin = 0
-            quarterEnd = self.quarterNote - 1
-            endTick = 0
+        quarterBegin = 0
+        quarterEnd = self.quarterNote - 1
+        endTick = 0
 
-            for event in track:
-                    endTick += event.tick
-                    if type(event) is midi.SetTempoEvent:
-                        self.setTempo(event.data)
-                    if type(event) is midi.EndOfTrackEvent:
-                        break
+        for event in track:
+                endTick += event.tick
+                if type(event) is midi.SetTempoEvent:
+                    self.setTempo(event.data)
+                # if type(event) is midi.EndOfTrackEvent:
+                # break
 
+        currentTick = 0
+
+        while quarterBegin <= endTick:
             currentTick = 0
+            currentNotes = set()
+            noteEnds = set()
+            for event in track:
+                currentTick += event.tick
+                if currentTick > quarterEnd:
+                    break
 
-            while quarterBegin <= endTick:
-                currentTick = 0
-                currentNotes = set()
-                noteEnds = set()
-                for event in track:
-                    currentTick += event.tick
-                    if currentTick > quarterEnd:
-                            break
+                if currentTick >= quarterBegin and currentTick <= quarterEnd:
+                    if type(event) is midi.NoteOnEvent:
+                        currentNotes.add(event.data[0])
+                        #print currentNotes
 
-                    if currentTick >= quarterBegin and currentTick <= quarterEnd:
-                        if type(event) is midi.NoteOnEvent:
-                            currentNotes.add(event.data[0])
-                            #print currentNotes
+                    if type(event) is midi.NoteOffEvent:
+                        noteEnds.add(event.data[0])
 
-                        if type(event) is midi.NoteOffEvent:
-                            noteEnds.add(event.data[0])
+            if len(currentNotes) > 0:
+                chord = music21.chord.Chord(currentNotes)
+                self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
+            elif len(noteEnds) > 0:
+                chord = music21.chord.Chord(noteEnds)
+                self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
 
-                if len(currentNotes) > 0:
-                    chord = music21.chord.Chord(currentNotes)
-                    self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
-                elif len(noteEnds) > 0:
-                    chord = music21.chord.Chord(noteEnds)
-                    self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
-
-                quarterBegin += self.quarterNote
-                quarterEnd = quarterBegin + self.quarterNote - 1
+            quarterBegin += self.quarterNote
+            quarterEnd = quarterBegin + self.quarterNote - 1
 
 
-                    #if type(event) is midi.NoteOnEvent:
-                        #currentNotes.add(event.data[0])
+                #if type(event) is midi.NoteOnEvent:
+                    #currentNotes.add(event.data[0])
 
-                    #if type(event) is midi.NoteOffEvent:
-                        #if event.data[0] in currentNotes:
-                            #currentNotes.remove(event.data[0])
+                #if type(event) is midi.NoteOffEvent:
+                    #if event.data[0] in currentNotes:
+                        #currentNotes.remove(event.data[0])
 
     def dataString(self):
         string = "-1"
@@ -109,19 +113,47 @@ class Song:
         stream.append(self.key)
         stream.append(chord)
 
-        print chord.findRoot().midi%12
+        # print chord.findRoot().midi%12
         chordNumber = (chord.findRoot().midi + 3)%12
         chordName = ""
         if name == "major triad":
             chordName = "M" + str(chordNumber)
         elif name == "minor triad":
             chordName = "m" + str(chordNumber)
-        elif name == "dominant seventh chord":
+        elif name == "dominant seventh chord" or name == "incomplete major-seventh chord":
             chordName = "M" + str(chordNumber) + "^7"
+        elif name == "unison" and self.key.mode == "minor":
+            chordName = "m" + str(chordNumber)
+        elif name == "unison":
+            chordName = "M" + str(chordNumber)
+        elif name == "interval class 4":
+            if self.key.mode == "minor":
+                chordName = "m" + str(chordNumber)
+            else:
+                chordName = "M" + str(chordNumber)
+        elif name == "interval class 5":
+            if self.key.mode == "minor":
+                chordName = "m" + str(chordNumber)
+            else:
+                chordName = "M" + str(chordNumber)
+        elif name == "interval class 2":
+            if self.key.mode == "minor":
+                chordName = "m" + str(chordNumber)
+            else:
+                chordName = "M" + str(chordNumber)
+        elif name == "interval class 3":
+            if self.key.mode == "minor":
+                chordName = "m" + str(chordNumber)
+            else:
+                chordName = "M" + str(chordNumber)
         else:
             print "Couldn't find: ", name
-            chordName = "M" + str(chordNumber)
+            if self.key.mode == "minor":
+                chordName = "m" + str(chordNumber)
+            else:
+                chordName = "M" + str(chordNumber)
 
+        # print chordName
         return Song.chordMap.get(chordName, 0)
 
     def setTempo(self, data):
@@ -141,6 +173,8 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("thing4.mid", "A")
+twinkle = Song("ABBA_-_Waterloo.mid", "C")
+twinkle.save()
 print twinkle.dataString()
+print twinkle.key.mode
 
