@@ -174,7 +174,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("paradise.mid", "b")
+twinkle = Song("life.mid", "c")
 twinkle.save()
 print twinkle.dataString()
 print twinkle.key.mode

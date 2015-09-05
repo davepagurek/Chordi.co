@@ -22,7 +22,7 @@ chords = {
 }
 
 chordInput = []
-with open ("training/paradise.mid.txt", "r") as data:
+with open ("training/life.mid.txt", "r") as data:
     chordInput = data.read().replace("-1", "").replace("14", "").split(' ')
 
 pattern = midi.Pattern(resolution=quarterNote)
@@ -53,8 +53,23 @@ for index, chord in enumerate(chordInput):
                 track.append(midi.NoteOffEvent(tick=0, pitch=note))
 
 
+track.append(midi.EndOfTrackEvent(tick=quarterNote))
+
+drums = midi.Track()
+pattern.append(drums)
+drums.append(midi.TrackNameEvent(tick=0, text='Channel #10 10'))
+for i in range(0, len(chordInput)):
+    note = 42
+    if i % 4 == 0:
+        note = 36
+    elif i % 4 == 2:
+        note = 38
+    drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=note))
+    drums.append(midi.NoteOffEvent(tick=quarterNote-1, channel=9, pitch=note))
+drums.append(midi.EndOfTrackEvent(tick=quarterNote, channel=9))
+
+
 print pattern
 
-track.append(midi.EndOfTrackEvent(tick=quarterNote*len(chordInput)))
 midi.write_midifile("output.mid", pattern)
 
