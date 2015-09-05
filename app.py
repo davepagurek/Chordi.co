@@ -43,5 +43,9 @@ def send_images(path):
 def send_css(path):
     return send_from_directory('css', path)
 
+@app.route('/songs/<path:path>')
+def send_songs(path):
+    return send_from_directory('songs', path)
+
 if __name__ == "__main__":
     app.run(debug = True)
