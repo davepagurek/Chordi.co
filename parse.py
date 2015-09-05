@@ -125,14 +125,34 @@ class Song:
             chordName = "m" + str(chordNumber)
         elif name == "unison":
             chordName = "M" + str(chordNumber)
+        elif name == "interval class 4":
+            if self.key.mode == "minor":
+                chordName = "m5"
+            else:
+                chordName = "M5"
+        elif name == "interval class 5":
+            if self.key.mode == "minor":
+                chordName = "m7"
+            else:
+                chordName = "M7"
+        elif name == "interval class 2":
+            if self.key.mode == "minor":
+                chordName = "o2"
+            else:
+                chordName = "m2"
+        elif name == "interval class 3":
+            if self.key.mode == "minor":
+                chordName = "m4"
+            else:
+                chordName = "M4"
         else:
-            # print "Couldn't find: ", name
+            print "Couldn't find: ", name
             if self.key.mode == "minor":
                 chordName = "m" + str(chordNumber)
             else:
                 chordName = "M" + str(chordNumber)
 
-        print chordName
+        # print chordName
         return Song.chordMap.get(chordName, 0)
 
     def setTempo(self, data):
