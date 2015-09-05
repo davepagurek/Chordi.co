@@ -36,10 +36,10 @@ class Song:
                 if type(event) is midi.SetTempoEvent:
                     self.setTempo(event.data)
 
-                if type(event) is midi.NoteOnEvent or type(event) is midi.NoteOffEvent:
+                if type(event) is midi.NoteOffEvent:
                     currentTick += event.tick
 
-                if currentTick - lastTick >= self.quarterNote:
+                if currentTick - lastTick >= self.quarterNote and len(currentNotes) > 0:
                     chord = music21.chord.Chord(currentNotes)
                     self.song.append({"from": lastTick+1, "to": currentTick, "chord": self.chordNumber(chord)})
                     lastTick = currentTick
@@ -97,5 +97,8 @@ class Song:
         f.close()
 
 twinkle = Song("twinkle.mid", "C")
+
+
+
 print twinkle.dataString()
 

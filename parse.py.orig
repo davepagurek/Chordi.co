@@ -20,7 +20,7 @@ class Song:
     }
 
     def __init__(self, filename, key):
-        pattern = midi.read_midifile("Midi Thingies/twinkle.mid")
+        pattern = midi.read_midifile("midi/"+filename)
 
         self.key = music21.key.Key("C")
         self.song = []
@@ -36,10 +36,10 @@ class Song:
                 if type(event) is midi.SetTempoEvent:
                     self.setTempo(event.data)
 
-                if type(event) is midi.NoteOnEvent or type(event) is midi.NoteOffEvent:
+                if type(event) is midi.NoteOffEvent:
                     currentTick += event.tick
 
-                if currentTick - lastTick >= self.quarterNote:
+                if currentTick - lastTick >= self.quarterNote and len(currentNotes) > 0:
                     chord = music21.chord.Chord(currentNotes)
                     self.song.append({"from": lastTick+1, "to": currentTick, "chord": self.chordNumber(chord)})
                     lastTick = currentTick
@@ -91,17 +91,18 @@ class Song:
             return Song.notes[index]
         else:
             return "undef: " + str(index)
-    def save(self, songData):
-        f = open(self.name,'w')
+    def save(self):
+        f = open("training/"+self.name,'w')
         f.write(self.dataString())
         f.close()
+
 <<<<<<< HEAD
+twinkle = Song("twinkle.mid", "C")
 =======
 
 
 
-
-twinkle = Song("Midi Thingies/twinkle.mid", "C")
+twinkle = Song("Midi Thingies/thing2.mid", "C")
+>>>>>>> 9cb47e3ff86aeeaf64e5c668ea2877292cd1af9e
 print twinkle.dataString()
 
->>>>>>> 3e5a019eeec09812a791708c9308766c1ce4f9aa
