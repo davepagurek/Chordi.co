@@ -127,7 +127,10 @@ class Song:
             chordName = "M" + str(chordNumber)
         else:
             # print "Couldn't find: ", name
-            chordName = "M" + str(chordNumber)
+            if self.key.mode == "minor":
+                chordName = "m" + str(chordNumber)
+            else:
+                chordName = "M" + str(chordNumber)
 
         print chordName
         return Song.chordMap.get(chordName, 0)
@@ -150,5 +153,7 @@ class Song:
         f.close()
 
 twinkle = Song("beethoven9.mid", "d")
+twinkle.save()
 print twinkle.dataString()
+print twinkle.key.mode
 
