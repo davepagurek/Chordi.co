@@ -4,6 +4,19 @@ Procedural music, taught with data from real artists
 ## Dependencies
 Check requirements.txt
 
+## Neural Network structure
+The following program uses a Feed Forward Neural network that is trained with
+midi data to generate a song. There is only one hidden layer present and
+5 nodes on the hidden layer.
+
+## File function
+The following files have the corresponding functions.
+|File Name|Description|
+|---------------------|
+|tomidi.py| Converts an intermediate text file with midi chord data to a midi
+file to be played.|
+|---------------------|
+|learn.py| Creates an intermediate file from the all the trained data.|
 ## Chord enumeration
 ```
 -1   (start)

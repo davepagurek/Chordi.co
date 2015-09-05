@@ -33,7 +33,7 @@ net = FeedForwardNetwork()
 #create the layers of the network
 inLayer = LinearLayer(5)
 outLayer = LinearLayer(1)
-hidden1 = SigmoidLayer(3)
+hidden1 = SigmoidLayer(5)
 
 #add the layers
 net.addInputModule(inLayer)
