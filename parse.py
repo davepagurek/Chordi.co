@@ -15,31 +15,31 @@ class Song:
             currentNotes = set()
             for event in track:
                 if type(event) is midi.SetTempoEvent:
-                    self.tempo = __dataToBPM(event.data)
+                    self.setTempo(event.data)
 
                 if type(event) is midi.NoteOnEvent:
-                    set.add(__noteFromMidi(event.data[0]))
+                    currentNotes.add(self.noteFromMidi(event.data[0]))
                     currentTick += event.tick
 
                 if type(event) is midi.NoteOffEvent:
-                    set.remove(__noteFromMidi(event.data[0]))
+                    currentNotes.remove(self.noteFromMidi(event.data[0]))
                     currentTick += event.tick
 
                 if currentTick != lastTick:
                     self.song += {"from": lastTick+1, "to": currentTick, "notes": currentNotes.copy()}
                     lastTick = currentTick
 
-    def __dataToBPM(data):
+    def setTempo(self, data):
         print data
         timePerQuarter = ""
         for digit in data:
             timePerQuarter += hex(digit)[2:]
-        return 60000000/int(timePerQuarter, 16)
+        self.tempo = 60000000/int(timePerQuarter, 16)
 
-    def __noteFromMidi(num):
+    def noteFromMidi(self, num):
         index = ((num-21)%12 - 3) % 12
-        if 0 <= index < len(notes):
-            return notes[index]
+        if 0 <= index < len(Song.notes):
+            return Song.notes[index]
         else:
             return "undef: " + str(index)
     def save(self, songData):
