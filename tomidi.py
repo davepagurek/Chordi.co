@@ -27,6 +27,7 @@ with open ("training/life.mid.txt", "r") as data:
 
 pattern = midi.Pattern(resolution=quarterNote)
 track = midi.Track()
+track.append(midi.InstrumentNameEvent(tick=0, data=[27]))
 pattern.append(track)
 midi.SetTempoEvent(tick=0, data=[7, 161, 32])
 
@@ -58,14 +59,49 @@ track.append(midi.EndOfTrackEvent(tick=quarterNote))
 drums = midi.Track()
 pattern.append(drums)
 drums.append(midi.TrackNameEvent(tick=0, text='Channel #10 10'))
+style = 0
 for i in range(0, len(chordInput)):
-    note = 42
     if i % 4 == 0:
-        note = 36
+        if i % 32 == 0:
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=49))
+            drums.append(midi.NoteOffEvent(tick=quarterNote-1, channel=9, pitch=49))
+        else:
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=36))
+            drums.append(midi.NoteOffEvent(tick=quarterNote-1, channel=9, pitch=36))
     elif i % 4 == 2:
-        note = 38
-    drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=note))
-    drums.append(midi.NoteOffEvent(tick=quarterNote-1, channel=9, pitch=note))
+        if i % 16 == 14:
+            style = 1
+        else:
+            style = 0
+        if style == 1:
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/4-1, channel=9, pitch=38))
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=75, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/4-1, channel=9, pitch=38))
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=50, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/4-1, channel=9, pitch=38))
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=75, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/4-1, channel=9, pitch=38))
+        else:
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=80, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote-1, channel=9, pitch=38))
+    elif i % 4 == 3:
+        if style == 1:
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/2-1, channel=9, pitch=38))
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=100, pitch=38))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/2-1, channel=9, pitch=38))
+        else:
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=50, pitch=42))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/2-1, channel=9, pitch=42))
+            drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=35, pitch=42))
+            drums.append(midi.NoteOffEvent(tick=quarterNote/2-1, channel=9, pitch=42))
+    else:
+        drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=75, pitch=42))
+        drums.append(midi.NoteOffEvent(tick=quarterNote/2-1, channel=9, pitch=42))
+        drums.append(midi.NoteOnEvent(tick=1, channel=9, velocity=55, pitch=42))
+        drums.append(midi.NoteOffEvent(tick=quarterNote/2-1, channel=9, pitch=42))
+
 drums.append(midi.EndOfTrackEvent(tick=quarterNote, channel=9))
 
 
