@@ -95,6 +95,8 @@ class Song:
         f = open(self.name,'w')
         f.write(self.dataString())
         f.close()
+<<<<<<< HEAD
+=======
 
 
 
@@ -102,3 +104,4 @@ class Song:
 twinkle = Song("Midi Thingies/twinkle.mid", "C")
 print twinkle.dataString()
 
+>>>>>>> 3e5a019eeec09812a791708c9308766c1ce4f9aa
