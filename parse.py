@@ -3,20 +3,35 @@ import music21
 
 class Song:
     chordMap = {
-        "M1": 0,
-        "m1": 1,
+        "M0": 0,
+        "m0": 1,
         "o2": 2,
         "m2": 3,
-        "m3": 4,
-        "M3": 5,
-        "m4": 6,
-        "M4": 7,
-        "m5": 8,
-        "M5": 9,
-        "M5^7": 10,
-        "m6": 11,
-        "M6": 12,
-        "o7": 13
+        "m4": 4,
+        "M4": 5,
+        "m5": 6,
+        "M5": 7,
+        "m7": 8,
+        "M7": 9,
+        "M7^7": 10,
+        "m9": 11,
+        "M9": 12,
+        "o11": 13
+
+        # "M1": 0,
+        # "m1": 1,
+        # "o2": 2,
+        # "m2": 3,
+        # "m3": 4,
+        # "M3": 5,
+        # "m4": 6,
+        # "M4": 7,
+        # "m5": 8,
+        # "M5": 9,
+        # "M5^7": 10,
+        # "m6": 11,
+        # "M6": 12,
+        # "o7": 13
     }
 
     def __init__(self, filename, key):
@@ -94,8 +109,8 @@ class Song:
         stream.append(self.key)
         stream.append(chord)
 
-        print chord.findRoot()
-        chordNumber = chord.findRoot().midi%12
+        print chord.findRoot().midi%12
+        chordNumber = (chord.findRoot().midi + 3)%12
         chordName = ""
         if name == "major triad":
             chordName = "M" + str(chordNumber)
@@ -107,7 +122,7 @@ class Song:
             print "Couldn't find: ", name
             chordName = "M" + str(chordNumber)
 
-        return Song.chordMap.get(chordName, 1)
+        return Song.chordMap.get(chordName, 0)
 
     def setTempo(self, data):
         timePerQuarter = ""
@@ -126,6 +141,6 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("twinkle2.mid", "C")
+twinkle = Song("thing4.mid", "A")
 print twinkle.dataString()
 

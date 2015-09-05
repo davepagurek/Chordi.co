@@ -66,7 +66,11 @@ def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
     song = [str(inputSequence[x])  for x in range(0,static.NUM_OF_INPUTS)]
     nextout = 0
+<<<<<<< HEAD
+    for x in range(0,24):
+=======
     for x in range(0,128):
+>>>>>>> cf8f966086b46c30aaa32e388f393b3fd882b010
         nextout = int(net.activate(tuple(inputSequence)))
         song.append(str(nextout))
         inputSequence = inputSequence[1:]
@@ -77,4 +81,8 @@ def getSong(inputSequence):
     f.write(' '.join(song))
     f.close()
 
+<<<<<<< HEAD
+getSong([5,7,9,11,9])
+=======
 getSong([4,2,4,5,7,3,5,4])
+>>>>>>> cf8f966086b46c30aaa32e388f393b3fd882b010
