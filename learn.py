@@ -12,6 +12,7 @@ from pybrain.structure import FullConnection
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 
+import random
 import pdb
 
 n = FeedForwardNetwork()
@@ -53,14 +54,17 @@ net.sortModules()
 #trainer to edit the network
 trainer = BackpropTrainer(net, ds, learningrate = 0.003, momentum = 0.99)
 
-trainer.trainEpochs(25)
+trainer.trainEpochs(20)
 #generate a song given an input sequence
 def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
     song = [str(inputSequence[x])  for x in range(0,5)]
     nextout = 0
     for x in range(0,16):
-        nextout = int(net.activate(tuple(inputSequence)))
+        if inputSequence[4] == inputSequence[3]:
+            nextout = random.randint(inputSequence[4]-2,inputSequence[4]+2)
+        else:
+            nextout = int(net.activate(tuple(inputSequence)))
         song.append(str(nextout))
         inputSequence = inputSequence[1:]
         inputSequence.append(nextout)
