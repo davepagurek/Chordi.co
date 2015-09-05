@@ -83,4 +83,4 @@ def getSong(inputSequence):
     f.write(' '.join(song))
     f.close()
 
-getSong([0,0,0,0,0,0,0,0])
+getSong([0, 7, 9, 0])
