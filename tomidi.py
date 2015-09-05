@@ -20,7 +20,7 @@ chords = {
 }
 
 chordInput = []
-with open ("training/Twinkle", "r") as data:
+with open ("output.txt", "r") as data:
     chordInput = data.read().replace("-1", "").replace("14", "").split(' ')
 
 pattern = midi.Pattern(resolution=quarterNote)
