@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 from learn import Learn
 from tomidi import toMidi
@@ -30,6 +30,18 @@ def train_function():
 
 def getStartSequence():
     return [0, 7, 9, 0]
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+
+@app.route('/images/<path:path>')
+def send_images(path):
+    return send_from_directory('images', path)
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
 
 if __name__ == "__main__":
     app.run(debug = True)
