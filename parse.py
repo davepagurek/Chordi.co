@@ -44,55 +44,58 @@ class Song:
         self.name = filename
 
         #print self.quarterNote
+        track = pattern[0]
+        for t in pattern:
+            if len(t) > len(track):
+                track = t
 
-        for track in pattern:
-            quarterBegin = 0
-            quarterEnd = self.quarterNote - 1
-            endTick = 0
+        quarterBegin = 0
+        quarterEnd = self.quarterNote - 1
+        endTick = 0
 
-            for event in track:
-                    endTick += event.tick
-                    if type(event) is midi.SetTempoEvent:
-                        self.setTempo(event.data)
-                    if type(event) is midi.EndOfTrackEvent:
-                        break
+        for event in track:
+                endTick += event.tick
+                if type(event) is midi.SetTempoEvent:
+                    self.setTempo(event.data)
+                if type(event) is midi.EndOfTrackEvent:
+                    break
 
+        currentTick = 0
+
+        while quarterBegin <= endTick:
             currentTick = 0
+            currentNotes = set()
+            noteEnds = set()
+            for event in track:
+                currentTick += event.tick
+                if currentTick > quarterEnd:
+                    break
 
-            while quarterBegin <= endTick:
-                currentTick = 0
-                currentNotes = set()
-                noteEnds = set()
-                for event in track:
-                    currentTick += event.tick
-                    if currentTick > quarterEnd:
-                            break
+                if currentTick >= quarterBegin and currentTick <= quarterEnd:
+                    if type(event) is midi.NoteOnEvent:
+                        currentNotes.add(event.data[0])
+                        #print currentNotes
 
-                    if currentTick >= quarterBegin and currentTick <= quarterEnd:
-                        if type(event) is midi.NoteOnEvent:
-                            currentNotes.add(event.data[0])
-                            #print currentNotes
+                    if type(event) is midi.NoteOffEvent:
+                        noteEnds.add(event.data[0])
 
-                        if type(event) is midi.NoteOffEvent:
-                            noteEnds.add(event.data[0])
+            if len(currentNotes) > 0:
+                chord = music21.chord.Chord(currentNotes)
+                self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
+            elif len(noteEnds) > 0:
+                chord = music21.chord.Chord(noteEnds)
+                self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
 
-                if len(currentNotes) > 0:
-                    chord = music21.chord.Chord(currentNotes)
-                    self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
-                elif len(noteEnds) > 0:
-                    chord = music21.chord.Chord(noteEnds)
-                    self.song.append({"from": quarterBegin, "to": quarterEnd, "chord": self.chordNumber(chord)})
-
-                quarterBegin += self.quarterNote
-                quarterEnd = quarterBegin + self.quarterNote - 1
+            quarterBegin += self.quarterNote
+            quarterEnd = quarterBegin + self.quarterNote - 1
 
 
-                    #if type(event) is midi.NoteOnEvent:
-                        #currentNotes.add(event.data[0])
+                #if type(event) is midi.NoteOnEvent:
+                    #currentNotes.add(event.data[0])
 
-                    #if type(event) is midi.NoteOffEvent:
-                        #if event.data[0] in currentNotes:
-                            #currentNotes.remove(event.data[0])
+                #if type(event) is midi.NoteOffEvent:
+                    #if event.data[0] in currentNotes:
+                        #currentNotes.remove(event.data[0])
 
     def dataString(self):
         string = "-1"
@@ -109,7 +112,7 @@ class Song:
         stream.append(self.key)
         stream.append(chord)
 
-        print chord.findRoot().midi%12
+        # print chord.findRoot().midi%12
         chordNumber = (chord.findRoot().midi + 3)%12
         chordName = ""
         if name == "major triad":
@@ -118,10 +121,15 @@ class Song:
             chordName = "m" + str(chordNumber)
         elif name == "dominant seventh chord":
             chordName = "M" + str(chordNumber) + "^7"
+        elif name == "unison" and self.key.mode == "minor":
+            chordName = "m" + str(chordNumber)
+        elif name == "unison":
+            chordName = "M" + str(chordNumber)
         else:
-            print "Couldn't find: ", name
+            # print "Couldn't find: ", name
             chordName = "M" + str(chordNumber)
 
+        print chordName
         return Song.chordMap.get(chordName, 0)
 
     def setTempo(self, data):
@@ -141,6 +149,6 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("thing4.mid", "A")
+twinkle = Song("beethoven9.mid", "d")
 print twinkle.dataString()
 
