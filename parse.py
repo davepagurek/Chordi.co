@@ -97,8 +97,9 @@ class Song:
         f.close()
 
 twinkle = Song("twinkle.mid", "C")
-
+thing2 = Song("thing2.mid","C")
 
 
 print twinkle.dataString()
+print thing2.dataString()
 
