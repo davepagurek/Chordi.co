@@ -6,26 +6,75 @@ from pybrain.datasets import SupervisedDataSet
 from songfactory import SongFactory
 from model import SongModel
 
+from pybrain.structure import FeedForwardNetwork
+from pybrain.structure import LinearLayer, SigmoidLayer
+from pybrain.structure import FullConnection
+from pybrain.tools.shortcuts import buildNetwork
+from pybrain.supervised.trainers import BackpropTrainer
 
-dataModel = songfactory.getModels()
+import pdb
+
+n = FeedForwardNetwork()
+
+dataModel = SongFactory().getModels()
 
 ds = SupervisedDataSet(5, 1)
-for input, target in dataModel:
-         ds.addSample(input, target)
 
+#adds samples from the data received from songfactory and the k
+#for data in dataModel:
+for input, target in dataModel[1].model:
+    #print input, target
+    ds.addSample(input, target)
+
+#data set for training the network
 trainingSet = SupervisedDataSet(5, 1);
 
-from pybrain.tools.shortcuts import buildNetwork
-net = buildNetwork(5, 10, 1, bias=True)
+#instantiate the network
+net = FeedForwardNetwork()
 
-from pybrain.supervised.trainers import BackpropTrainer
+#create the layers of the network
+inLayer = LinearLayer(5)
+outLayer = LinearLayer(1)
+hidden1 = SigmoidLayer(5)
+hidden2 = SigmoidLayer(5)
+
+#add the layers
+net.addInputModule(inLayer)
+net.addOutputModule(outLayer)
+net.addModule(hidden1)
+net.addModule(hidden2)
+
+#create the connection
+in_h1 = FullConnection(inLayer,hidden1)
+h1_h2 = FullConnection(hidden1, hidden2)
+h2_out = FullConnection(hidden2,outLayer)
+
+#add the connection
+net.addConnection(in_h1);
+net.addConnection(h1_h2)
+net.addConnection(h2_out)
+
+net.sortModules()
+
+#trainer to edit the network
 trainer = BackpropTrainer(net, ds, learningrate = 0.001, momentum = 0.99)
 
 trainer.trainEpochs(100)
 
-for x in dataModel:
-    print x[0],"-->",round(net.activate(x[0]))
+#generate a song given an input sequence
+def getSong(inputSequence):
+    inputSequence = [x * 1000 for x in inputSequence]
+    song = [str(inputSequence[x]/1000)  for x in range(0,5)]
+    nextout = 0
+    for x in range(0,16):
+        nextout = int(net.activate(tuple(inputSequence)))
+        song.append(str(nextout/1000))
+        inputSequence = inputSequence[1:]
+        inputSequence.append(nextout)
 
-def getSong():
-    song = []
-    return song
+    print song
+    f = open('output.txt', 'w')
+    f.write(' '.join(song))
+    f.close()
+
+getSong([1,2,1,2,5])
