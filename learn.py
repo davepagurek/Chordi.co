@@ -3,9 +3,11 @@ from pybrain.datasets import SupervisedDataSet
 from pybrain.supervised.trainers import BackpropTrainer
 
 from pybrain.datasets import SupervisedDataSet
+from songfactory import SongFactory
+from model import SongModel
 
-dataModel = [
-]
+
+dataModel = songfactory.getModels()
 
 ds = SupervisedDataSet(5, 1)
 for input, target in dataModel:
@@ -25,4 +27,5 @@ for x in dataModel:
     print x[0],"-->",round(net.activate(x[0]))
 
 def getSong():
-    return "midi yay"
+    song = []
+    return song
