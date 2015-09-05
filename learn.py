@@ -9,6 +9,7 @@ from model import SongModel
 from pybrain.structure import FeedForwardNetwork
 from pybrain.structure import LinearLayer, SigmoidLayer
 from pybrain.structure import FullConnection
+from pybrain.structure.modules import BiasUnit
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 
@@ -30,11 +31,13 @@ for data in dataModel:
 
 #instantiate the network
 net = FeedForwardNetwork()
+bias = BiasUnit()
+net.addModule(bias)
 
 #create the layers of the network
 inLayer = LinearLayer(5)
 outLayer = LinearLayer(1)
-hidden1 = SigmoidLayer(5)
+hidden1 = SigmoidLayer(6)
 
 #add the layers
 net.addInputModule(inLayer)
@@ -44,27 +47,26 @@ net.addModule(hidden1)
 #create the connection
 in_h1 = FullConnection(inLayer,hidden1)
 h1_out = FullConnection(hidden1, outLayer)
+b_h1  = FullConnection(bias, hidden1)
 
 #add the connection
 net.addConnection(in_h1);
 net.addConnection(h1_out)
+net.addConnection(b_h1)
 
 net.sortModules()
 
 #trainer to edit the network
-trainer = BackpropTrainer(net, ds, learningrate = 0.003, momentum = 0.99)
+trainer = BackpropTrainer(net, ds, learningrate = 0.001, momentum = 0.99)
 
-trainer.trainEpochs(20)
+trainer.trainEpochs(100)
 #generate a song given an input sequence
 def getSong(inputSequence):
     inputSequence = [x for x in inputSequence]
     song = [str(inputSequence[x])  for x in range(0,5)]
     nextout = 0
-    for x in range(0,16):
-        if inputSequence[4] == inputSequence[3]:
-            nextout = random.randint(inputSequence[4]-2,inputSequence[4]+2)
-        else:
-            nextout = int(net.activate(tuple(inputSequence)))
+    for x in range(0,24):
+        nextout = int(net.activate(tuple(inputSequence)))
         song.append(str(nextout))
         inputSequence = inputSequence[1:]
         inputSequence.append(nextout)
@@ -74,4 +76,4 @@ def getSong(inputSequence):
     f.write(' '.join(song))
     f.close()
 
-getSong([4,2,1,2,3])
+getSong([5,7,9,11,9])
