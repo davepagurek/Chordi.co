@@ -5,8 +5,9 @@ Procedural music, taught with data from real artists
 Check requirements.txt for python dependencies
 
 To convert to mp3, run the following:
-```brew install libsndfile lame
-  brew install --with-libsndfile fluidsynth
+```
+brew install libsndfile lame
+brew install --with-libsndfile fluidsynth
 ```
 
 
