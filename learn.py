@@ -21,13 +21,11 @@ dataModel = SongFactory().getModels()
 ds = SupervisedDataSet(5, 1)
 
 #adds samples from the data received from songfactory and the k
-#for data in dataModel:
-for input, target in dataModel[1].model:
-    #print input, target
-    ds.addSample(input, target)
+for data in dataModel:
+    for input, target in data.model:
+        print input, target
+        ds.addSample(input, target)
 
-#data set for training the network
-trainingSet = SupervisedDataSet(5, 1);
 
 #instantiate the network
 net = FeedForwardNetwork()
@@ -35,40 +33,35 @@ net = FeedForwardNetwork()
 #create the layers of the network
 inLayer = LinearLayer(5)
 outLayer = LinearLayer(1)
-hidden1 = SigmoidLayer(5)
-hidden2 = SigmoidLayer(5)
+hidden1 = SigmoidLayer(3)
 
 #add the layers
 net.addInputModule(inLayer)
 net.addOutputModule(outLayer)
 net.addModule(hidden1)
-net.addModule(hidden2)
 
 #create the connection
 in_h1 = FullConnection(inLayer,hidden1)
-h1_h2 = FullConnection(hidden1, hidden2)
-h2_out = FullConnection(hidden2,outLayer)
+h1_out = FullConnection(hidden1, outLayer)
 
 #add the connection
 net.addConnection(in_h1);
-net.addConnection(h1_h2)
-net.addConnection(h2_out)
+net.addConnection(h1_out)
 
 net.sortModules()
 
 #trainer to edit the network
-trainer = BackpropTrainer(net, ds, learningrate = 0.001, momentum = 0.99)
+trainer = BackpropTrainer(net, ds, learningrate = 0.003, momentum = 0.99)
 
-trainer.trainEpochs(100)
-
+trainer.trainEpochs(25)
 #generate a song given an input sequence
 def getSong(inputSequence):
-    inputSequence = [x * 1000 for x in inputSequence]
-    song = [str(inputSequence[x]/1000)  for x in range(0,5)]
+    inputSequence = [x for x in inputSequence]
+    song = [str(inputSequence[x])  for x in range(0,5)]
     nextout = 0
     for x in range(0,16):
         nextout = int(net.activate(tuple(inputSequence)))
-        song.append(str(nextout/1000))
+        song.append(str(nextout))
         inputSequence = inputSequence[1:]
         inputSequence.append(nextout)
 
@@ -77,4 +70,4 @@ def getSong(inputSequence):
     f.write(' '.join(song))
     f.close()
 
-getSong([1,2,1,2,5])
+getSong([4,2,1,2,3])
