@@ -11,7 +11,8 @@ chords = {
     "5": [midi.E_4, midi.Gs_4, midi.B_5],
     "6": [midi.F_4, midi.Gs_4, midi.C_5],
     "7": [midi.F_4, midi.A_5, midi.C_5],
-    "8": [midi.G_4, midi.As_5, midi.D_5],
+    # "8": [midi.G_4, midi.As_5, midi.D_5],
+    "8": [midi.G_4, midi.B_5, midi.D_5],
     "9": [midi.G_4, midi.B_5, midi.D_5],
     "10": [midi.G_4, midi.B_5, midi.D_5, midi.F_5],
     "11": [midi.A_5, midi.C_5, midi.E_5],
@@ -20,7 +21,7 @@ chords = {
 }
 
 chordInput = []
-with open ("training/beethoven5.mid.txt", "r") as data:
+with open ("training/coldplay-clocks.mid.txt", "r") as data:
     chordInput = data.read().replace("-1", "").replace("14", "").split(' ')
 
 pattern = midi.Pattern(resolution=quarterNote)
@@ -29,7 +30,12 @@ pattern.append(track)
 midi.SetTempoEvent(tick=0, data=[7, 161, 32])
 
 for index, chord in enumerate(chordInput):
+    if index > 0 and chord == chordInput[index-1]:
+        continue
     if chords.get(chord) != None:
+        hold = 1
+        while index+hold < len(chordInput) and chord == chordInput[index+hold]:
+            hold = hold+1
         first = True
         for note in chords.get(chord):
             if first:
@@ -40,7 +46,7 @@ for index, chord in enumerate(chordInput):
         first = True
         for note in chords.get(chord):
             if first:
-                track.append(midi.NoteOffEvent(tick=quarterNote-1, pitch=note))
+                track.append(midi.NoteOffEvent(tick=quarterNote*hold-1, pitch=note))
                 first = False
             else:
                 track.append(midi.NoteOffEvent(tick=0, pitch=note))

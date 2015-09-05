@@ -44,10 +44,11 @@ class Song:
         self.name = filename
 
         #print self.quarterNote
-        track = pattern[0]
+        track = []
         for t in pattern:
-            if len(t) > len(track):
-                track = t
+            track += t
+        track.sort(key=lambda x: x.tick)
+        print track
 
         quarterBegin = 0
         quarterEnd = self.quarterNote - 1
@@ -57,8 +58,8 @@ class Song:
                 endTick += event.tick
                 if type(event) is midi.SetTempoEvent:
                     self.setTempo(event.data)
-                if type(event) is midi.EndOfTrackEvent:
-                    break
+                # if type(event) is midi.EndOfTrackEvent:
+                # break
 
         currentTick = 0
 
@@ -119,7 +120,7 @@ class Song:
             chordName = "M" + str(chordNumber)
         elif name == "minor triad":
             chordName = "m" + str(chordNumber)
-        elif name == "dominant seventh chord":
+        elif name == "dominant seventh chord" or name == "incomplete major-seventh chord":
             chordName = "M" + str(chordNumber) + "^7"
         elif name == "unison" and self.key.mode == "minor":
             chordName = "m" + str(chordNumber)
@@ -127,24 +128,24 @@ class Song:
             chordName = "M" + str(chordNumber)
         elif name == "interval class 4":
             if self.key.mode == "minor":
-                chordName = "m5"
+                chordName = "m" + str(chordNumber)
             else:
-                chordName = "M5"
+                chordName = "M" + str(chordNumber)
         elif name == "interval class 5":
             if self.key.mode == "minor":
-                chordName = "m7"
+                chordName = "m" + str(chordNumber)
             else:
-                chordName = "M7"
+                chordName = "M" + str(chordNumber)
         elif name == "interval class 2":
             if self.key.mode == "minor":
-                chordName = "o2"
+                chordName = "m" + str(chordNumber)
             else:
-                chordName = "m2"
+                chordName = "M" + str(chordNumber)
         elif name == "interval class 3":
             if self.key.mode == "minor":
-                chordName = "m4"
+                chordName = "m" + str(chordNumber)
             else:
-                chordName = "M4"
+                chordName = "M" + str(chordNumber)
         else:
             print "Couldn't find: ", name
             if self.key.mode == "minor":
@@ -172,7 +173,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("beethoven9.mid", "d")
+twinkle = Song("coldplay-clocks.mid", "E-")
 twinkle.save()
 print twinkle.dataString()
 print twinkle.key.mode
