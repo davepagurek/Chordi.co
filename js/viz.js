@@ -14,10 +14,11 @@ function swapControls(current, next) {
 $(document).ready(function () {
     $("#generate").on("click", function() {
         var instrument = $("#instrument").val();
+        var mode = $("#mode").val();
 
         swapControls("#settings", "#loading");
 
-        $.ajax({method:"GET", url:"music/"+instrument}).done(function(msg){
+        $.ajax({method:"GET", url:"music/"+instrument+"/"+mode}).done(function(msg){
             $("#audioElement").attr("src",msg);
             swapControls("#loading", "#controls");
         });
