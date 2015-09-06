@@ -5,6 +5,8 @@ from learn import Learn
 from tomidi import toMidi
 from midi2mp3 import generateMP3
 
+import random
+
 MIDI_TEMP_PATH = 'songs/output.mid'
 FONT_PATH = "GeneralUser GS MuseScore v1.442.sf2"
 MP3_BASE_PATH = 'songs/output'
@@ -48,7 +50,12 @@ def send_songs(path):
     return send_from_directory('songs', path)
 
 def getStartSequence():
-    return [0, 7, 9, 0]
+    niceChords = [0, 0, 0, 1, 4, 5, 7, 9, 10, 11]
+    start = []
+    for i in range(0, 4):
+        start.append(random.choice(niceChords))
+    print start
+    return start
 
 def getMP3Path():
     files = listdir('songs')
