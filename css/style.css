@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Playfair+Display:400italic|Open+Sans:400,300);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300|Righteous);
 * {
   box-sizing: border-box;
 }
@@ -30,9 +30,8 @@ body {
   text-align:center;
 }
 h1 {
-  font-family: 'Playfair Display', cursive;
+  font-family: 'Righteous', sans-serif;
   font-size:72px;
-  font-variant: italic;
   margin: 10px 0;
   -webkit-animation-duration: 1.5s;
   animation-duration: 1.5s;
