@@ -8,8 +8,13 @@ from midi2mp3 import generateMP3
 import json
 
 MIDI_TEMP_PATH = 'songs/output.mid'
+<<<<<<< HEAD
+MP3_TEMP_PATH = 'songs/output.mp3'
 FONT_PATH = "GeneralUser GS MuseScore v1.442.sf2"
+=======
 MP3_BASE_PATH = 'songs/output'
+FONT_PATH = 'Gort\'s-DoubleDecker_J1.SF2'
+>>>>>>> 7be160feb611f070aaba5920b91b09e853da6c69
 BASE_URL = 'http://127.0.0.1:5000/'
 app = Flask(__name__)
 @app.route('/')

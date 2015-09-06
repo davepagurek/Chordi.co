@@ -60,10 +60,19 @@
       background-color: lightblue;
     }
     #graph {
-      margin-top: 5em;
-      text-align: center;
-      padding: 0px 10px 20px 10px;
-      border: 2px solid black;
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+        background-color:#EEE;
+    }
+    #graph svg {
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
     }
     .marginBottom {
       margin-bottom: 30px;
@@ -96,6 +105,7 @@
       </div>
     </div>
     <div class="container contentContainer" id="topContainer">
+      <div id="graph"></div>
       <div class="row">
         <div class="col-md-6 col-md-offset-3" id="topRow">
           <h1 class="marginTop">Chordi</h1>
@@ -108,14 +118,13 @@
       <div class="row" class="center">
         <h1 class="center title"></h1>
         <p class="lead center">Welcome to Chordi. We create beautiful music.</p>
-          <audio id="audioElement"></audio>
+          <audio id="audioElement" src="songs/Chasing.mp3"></audio>
           <div id="buttons">
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
           </div>
-          <div id="graph"></div>
       </div>
     </div>
     <div class="container contentContainer" id="footer">
@@ -128,16 +137,16 @@
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/d3.v3.min.js" charset="utf-8"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
       $(".contentContainer").css("min-height",$(window).height());
     </script>
     <script>
       $(document).ready(function () {
-          $.ajax({method:"GET", url:"http://127.0.0.1:5000/music"}).done(function(msg){
-              $("#audioElement").attr("src",msg);
-          });
+          //$.ajax({method:"GET", url:"http://127.0.0.1:5000/music"}).done(function(msg){
+              //$("#audioElement").attr("src",msg);
+          //});
       var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       var audioElement = document.getElementById('audioElement');
       var audioSrc = audioCtx.createMediaElementSource(audioElement);
@@ -150,13 +159,14 @@
       //var frequencyData = new Uint8Array(analyser.frequencyBinCount);
       var frequencyData = new Uint8Array(200);
 
-      var svgHeight = '300';
-      var svgWidth = '1000';
-      var barPadding = '1';
-
       function createSvg(parent, height, width) {
-        return d3.select(parent).append('svg').attr('height', height).attr('width', width);
+        return d3.select(parent).append('svg').attr('height', svgHeight).attr('width', svgWidth);
       }
+
+      var graph = document.getElementById('graph');
+      var svgHeight = graph.offsetHeight;
+      var svgWidth = graph.offsetWidth;
+      var barPadding = 1;
       var svg = createSvg('#graph', svgHeight, svgWidth);
 
       // Create our initial D3 chart.
@@ -167,27 +177,41 @@
          .attr('x', function (d, i) {
             return i * (svgWidth / frequencyData.length);
          })
-         .attr('width', svgWidth / frequencyData.length - barPadding);
+         .attr('height', svgHeight).attr('width', svgWidth);
+
+         $(window).on("resize", function() {
+            svg.attr('height', svgHeight).attr('width', svgWidth);
+            svgHeight = graph.offsetHeight;
+            svgWidth = graph.offsetWidth;
+         });
 
       // Continuously loop and update chart with frequency data.
       function renderChart() {
-         requestAnimationFrame(renderChart);
 
          // Copy frequency data to frequencyData array.
          analyser.getByteFrequencyData(frequencyData);
+         //console.log(frequencyData);
 
          // Update d3 chart with new data.
          svg.selectAll('rect')
             .data(frequencyData)
             .attr('y', function(d) {
-               return svgHeight - d;
+               return svgHeight - d/256 * svgHeight;
+            })
+            .attr('x', function (d, i) {
+                return i * (svgWidth / frequencyData.length);
             })
             .attr('height', function(d) {
-               return d;
+               return d/256 * svgHeight;
             })
+            .attr('width', svgWidth / frequencyData.length - barPadding)
             .attr('fill', function(d) {
+              return "#000";
                return 'rgb(0, 0, ' + d + ')';
             });
+
+            requestAnimationFrame(renderChart);
+
       }
 
       // Run the loop
