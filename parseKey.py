@@ -192,7 +192,7 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("minor/hotelC.mid")
+twinkle = Song("wat.mid")
 print twinkle.key
 print twinkle.dataString()
 
