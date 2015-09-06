@@ -26,9 +26,15 @@
       font-size: 1.5em;
     }
     #topContainer {
-      background-image: url(images/soundwaves.jpg);
-      width: 100%;
-      background-size: cover;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .intro {
+      position:relative;
+      z-index:5;
+      text-align:center;
+      text-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #topRow {
       margin-top: 100px;
@@ -65,7 +71,17 @@
       left:0;
       right:0;
       bottom:0;
-        background-color:#EEE;
+
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7c756+0,d13884+100 */
+background: #f7c756; /* Old browsers */
+background: -moz-linear-gradient(top,  #f7c756 0%, #d13884 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7c756), color-stop(100%,#d13884)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f7c756 0%,#d13884 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f7c756 0%,#d13884 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f7c756 0%,#d13884 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #f7c756 0%,#d13884 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', endColorstr='#d13884',GradientType=0 ); /* IE6-9 */
+
     }
     #graph svg {
       position:absolute;
@@ -106,12 +122,10 @@
     </div>
     <div class="container contentContainer" id="topContainer">
       <div id="graph"></div>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3" id="topRow">
-          <h1 class="marginTop">Chordi</h1>
-          <p class="lead">Procedural music, taught with data from real artists</p>
-          <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
-        </div>
+      <div class="intro">
+        <h1 class="marginTop">Chordi</h1>
+        <p class="lead">Procedural music, taught with data from real artists</p>
+        <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
       </div>
     </div>
     <div class="container contentContainer black" id="chordi">
@@ -174,15 +188,16 @@
          .data(frequencyData)
          .enter()
          .append('rect')
+         .attr('fill', 'rgba(255,255,255,0.6)')
          .attr('x', function (d, i) {
             return i * (svgWidth / frequencyData.length);
          })
          .attr('height', svgHeight).attr('width', svgWidth);
 
          $(window).on("resize", function() {
-            svg.attr('height', svgHeight).attr('width', svgWidth);
             svgHeight = graph.offsetHeight;
             svgWidth = graph.offsetWidth;
+            svg.attr('height', svgHeight).attr('width', svgWidth);
          });
 
       // Continuously loop and update chart with frequency data.
@@ -204,11 +219,7 @@
             .attr('height', function(d) {
                return d/256 * svgHeight;
             })
-            .attr('width', svgWidth / frequencyData.length - barPadding)
-            .attr('fill', function(d) {
-              return "#000";
-               return 'rgb(0, 0, ' + d + ')';
-            });
+            .attr('width', svgWidth / frequencyData.length - barPadding);
 
             requestAnimationFrame(renderChart);
 
