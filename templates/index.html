@@ -93,6 +93,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', end
     .marginBottom {
       margin-bottom: 30px;
     }
+    .collapsible {
+      overflow: hidden;
+    }
     #footer {
       background-color: #B0D1FB;
       padding-top: 70px;
@@ -114,7 +117,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', end
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#topContainer">Home</a></li>
-            <li><a href="#chordi">Chordi</a></li>
             <li><a href="#footer">Contact</a></li>
           </ul>
         </div>
@@ -125,20 +127,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', end
       <div class="intro">
         <h1 class="marginTop">Chordi</h1>
         <p class="lead">Procedural music, taught with data from real artists</p>
-        <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
-      </div>
-    </div>
-    <div class="container contentContainer black" id="chordi">
-      <div class="row" class="center">
-        <h1 class="center title"></h1>
-        <p class="lead center">Welcome to Chordi. We create beautiful music.</p>
-          <audio id="audioElement"></audio>
-          <div id="buttons">
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
-            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
-          </div>
+        <div id="try" class="collapsible">
+          <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
+        </div>
+        <div id="settings" class="collapsible" style="height:0">
+          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
+          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
+          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
+          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
+        </div>
+        <audio id="audioElement"></audio>
       </div>
     </div>
     <div class="container contentContainer" id="footer">
@@ -161,6 +159,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', end
           $.ajax({method:"GET", url:"http://127.0.0.1:5000/music"}).done(function(msg){
               $("#audioElement").attr("src",msg);
           });
+          $("#scroll").on("click", function() {
+            var container = $("#try");
+            var current = container.height();
+            container.css("height", current);
+            container.animate({height: 0}, 300, "swing");
+
+            var el = $('#settings'),
+            autoHeight = el.css('height', 'auto').height();
+            el.height(0).animate({height: autoHeight}, 300, "swing", function() {
+               el.css('height', 'auto');
+            });
+          })
       var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       var audioElement = document.getElementById('audioElement');
       var audioSrc = audioCtx.createMediaElementSource(audioElement);
