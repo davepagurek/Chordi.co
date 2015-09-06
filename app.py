@@ -49,6 +49,10 @@ def send_css(path):
 def send_songs(path):
     return send_from_directory('songs', path)
 
+@app.route('/font-awesome/<path:path>')
+def send_fonts(path):
+    return send_from_directory('font-awesome',path)
+
 def getStartSequence():
     niceChords = [0, 0, 0, 1, 4, 5, 7, 9, 10, 11]
     start = []

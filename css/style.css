@@ -46,7 +46,7 @@ h1 {
   width: 100%;
   position:relative;
 }
-button {
+button, a.button {
   display:inline-block;
   font-weight:lighter;
   margin:10px 5px;
