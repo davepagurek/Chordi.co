@@ -17,7 +17,7 @@ $(document).ready(function () {
 
         swapControls("#settings", "#loading");
 
-        $.ajax({method:"GET", url:"http://127.0.0.1:5000/music/"+instrument}).done(function(msg){
+        $.ajax({method:"GET", url:"music/"+instrument}).done(function(msg){
             $("#audioElement").attr("src",msg);
             swapControls("#loading", "#controls");
         });
