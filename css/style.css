@@ -1,0 +1,141 @@
+@import url(https://fonts.googleapis.com/css?family=Seaweed+Script|Open+Sans:400,300);
+* {
+  box-sizing: border-box;
+}
+body {
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-weight:lighter;
+  display: flex;
+  flex-direction:column;
+  padding:0;
+  margin:0;
+  min-height:100vh;
+}
+.wrapper {
+  width:100%;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align:center;
+}
+h1 {
+  font-family: 'Seaweed Script', cursive;
+  font-size:72px;
+  margin: 10px 0;
+}
+.container {
+  width: 100%;
+  position:relative;
+}
+button, a {
+  display:inline-block;
+  font-weight:lighter;
+  margin:10px 5px;
+  padding:10px;
+  font-size: 14px;
+  border:0;
+  color:#DD6675;
+  transition: all ease 0.2s;
+  background-color:#FFF;
+  box-shadow:0 0 5px rgba(0,0,0,0.2);
+  border-radius:4px;
+  text-decoration:none;
+}
+button:hover, button:focus, button:active,
+a:hover, a:focus, a:active {
+  color:#FFA139;
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
+  cursor:pointer;
+  outline:0;
+}
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  display:inline-block;
+  font-weight:lighter;
+  margin:10px 5px;
+  padding:10px 30px 10px 10px;
+  font-size: 14px;
+  border:0;
+  color:#DD6675;
+  transition: all ease 0.2s;
+  background-color:#FFF;
+  box-shadow:0 0 5px rgba(0,0,0,0.2);
+  border-radius:4px;
+  width:200px;
+}
+.overlay-arrow {
+  pointer-events: none;
+  font-size: 10px;
+  color: #DD6675;
+  cursor: default;
+  display:inline-block;
+  width:20px;
+  margin-left:-25px;
+  margin-right:5px;
+  padding-right:10px;
+  text-align:right;
+}
+select:focus {
+  color: #FFA139;
+  outline:0;
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+select:focus + .overlay-arrow {
+  color: #FFA139;
+}
+#topContainer {
+  flex: 1 0;
+  display:flex;
+  width:100%;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+.intro {
+  position:relative;
+  z-index:5;
+  text-align:center;
+  text-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+#instrument {
+  padding: 10px;
+  font-size: 16px;
+}
+#graph {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7c756+0,d13884+100 */
+  background: #f7c756; /* Old browsers */
+  background: -moz-linear-gradient(top,  #f7c756 0%, #d13884 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7c756), color-stop(100%,#d13884)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #f7c756 0%,#d13884 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #f7c756 0%,#d13884 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #f7c756 0%,#d13884 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #f7c756 0%,#d13884 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', endColorstr='#d13884',GradientType=0 ); /* IE6-9 */
+
+}
+#graph svg {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+}
+.marginBottom {
+  margin-bottom: 30px;
+}
+.collapsible {
+  overflow: hidden;
+}
+#footer {
+  background-color:#000;
+  padding:20px;
+  flex:0;
+}
+
