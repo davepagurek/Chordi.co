@@ -71,11 +71,13 @@ $(document).ready(function () {
         x: 0, y: -50, z: 50, w: 100, h: 100, rotationX: 0, rotationY: 0,
         bg: planeBg, border: planeBorder
     });
-    var cube = new ShapeGroup({
+    var cube1 = new ShapeGroup({
         x: -50, y: 0, z: 0,
         shapes: [plane1, plane2, plane3, plane4, plane5, plane6]
-    })
-    scene.addGroup(cube);
+    });
+    var cube2 = cube1.clone();
+    cube2.x = 50;
+    scene.addGroup(cube1);
 
 
     // Continuously loop and update chart with frequency data.
