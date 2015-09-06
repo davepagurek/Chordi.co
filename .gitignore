@@ -60,4 +60,4 @@ target/
 bin/
 include/
 
-songs/*.mp3
+songs/

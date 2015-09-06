@@ -17,14 +17,22 @@ $(document).ready(function () {
         var mode = $("#mode").val();
 
         swapControls("#settings", "#loading");
-
+        refreshSong(instrument, mode);
+     });
+    function refreshSong(instrument, mode){
         $.ajax({method:"GET", url:"music/"+instrument+"/"+mode}).done(function(msg){
             $("#audioElement").attr("src",msg);
             $("#downloadButton").attr("download", msg);
             $("#downloadButton").attr("href", msg);
             swapControls("#loading", "#controls");
         });
+    }
+    $("#shuffleButton").on("click",function(){
+      shuffleSong();
     });
+    function shuffleSong(){
+      refreshSong(Math.round(Math.random()) * 128, (Math.random() > .5)?"major" : "minor");
+    }
     $("#scroll").on("click", function() {
         swapControls("#try", "#settings");
     });
