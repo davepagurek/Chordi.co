@@ -118,7 +118,7 @@
       <div class="row" class="center">
         <h1 class="center title"></h1>
         <p class="lead center">Welcome to Chordi. We create beautiful music.</p>
-          <audio id="audioElement" src="songs/Chasing.mp3"></audio>
+          <audio id="audioElement"></audio>
           <div id="buttons">
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Generate Music</button>
             <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
@@ -144,9 +144,9 @@
     </script>
     <script>
       $(document).ready(function () {
-          //$.ajax({method:"GET", url:"http://127.0.0.1:5000/music"}).done(function(msg){
-              //$("#audioElement").attr("src",msg);
-          //});
+          $.ajax({method:"GET", url:"http://127.0.0.1:5000/music"}).done(function(msg){
+              $("#audioElement").attr("src",msg);
+          });
       var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       var audioElement = document.getElementById('audioElement');
       var audioSrc = audioCtx.createMediaElementSource(audioElement);
