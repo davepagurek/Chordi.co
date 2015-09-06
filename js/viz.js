@@ -28,6 +28,7 @@ $(document).ready(function () {
         });
     }
     $("#shuffleButton").on("click",function(){
+      swapControls("#controls","#loading");
       shuffleSong();
     });
     function shuffleSong(){
