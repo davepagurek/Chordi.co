@@ -6,11 +6,11 @@ from tomidi import toMidi
 from midi2mp3 import generateMP3
 
 import random
+import json
 
-MIDI_TEMP_PATH = 'songs/output.mid'
+MIDI_BASE_PATH = 'songs/output'
 FONT_PATH = "GeneralUser GS MuseScore v1.442.sf2"
 MP3_BASE_PATH = 'songs/output'
-BASE_URL = 'http://127.0.0.1:5000/'
 app = Flask(__name__)
 @app.route('/')
 def server():
@@ -21,9 +21,10 @@ def music_function(instrument, mode):
     learner = Learn(mode)
     learner.loadFromFile()
     song = learner.getSong(getStartSequence())
-    toMidi(song, MIDI_TEMP_PATH, instrument)
-    mp3Path = getMP3Path()
-    generateMP3(MIDI_TEMP_PATH, mp3Path, FONT_PATH)
+    midiPath = getPath(MIDI_BASE_PATH, '.mid')
+    toMidi(song, midiPath, instrument)
+    mp3Path = getPath(MP3_BASE_PATH, '.mp3')
+    generateMP3(midiPath, mp3Path, FONT_PATH)
     return mp3Path
 
 @app.route('/train/<string:mode>')
@@ -57,12 +58,12 @@ def getStartSequence():
     print start
     return start
 
-def getMP3Path():
+def getPath(basePath, ext):
     files = listdir('songs')
     files = [('songs/' + x) for x in files]
     i = 0
     while True:
-        songName = MP3_BASE_PATH + str(i) + '.mp3'
+        songName = basePath + str(i) + ext
         if not songName in files:
             return songName
         i += 1
