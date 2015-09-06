@@ -24,7 +24,7 @@ def music_function(param):
     toMidi(song, MIDI_TEMP_PATH, param)
     mp3Path = getMP3Path()
     generateMP3(MIDI_TEMP_PATH, mp3Path, FONT_PATH)
-    return BASE_URL + mp3Path
+    return mp3Path
 
 @app.route('/train')
 def train_function():
