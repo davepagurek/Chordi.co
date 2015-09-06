@@ -145,9 +145,8 @@ $(document).ready(function () {
 
     $(window).on("resize", function() {
         if (viz == "cube") {
-            scene.worldZoom = $(window).width() / 10;
+            scene.worldZoom = $(window).width() / 10 - 10;
             scene.updateView();
-            console.log(scene.worldZoom);
         } else if (viz == "graph") {
             svgHeight = graph.offsetHeight;
             svgWidth = graph.offsetWidth;
@@ -174,7 +173,7 @@ $(document).ready(function () {
                 total += frequencyData[i];
             }
             for (var i = 0; i < averages.length; i++) {
-                averages[i] /= frequencyData.length/averages.length * 100;
+                averages[i] /= frequencyData.length/averages.length * 500;
                 cubes[i].scale = averages[i] + 0.2;
                 cubes[i].update();
             }

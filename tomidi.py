@@ -1,8 +1,13 @@
 import midi
+import random
 
-def toMidi(songString, outfile, instrument=27, tempo=120):
+def toMidi(songString, outfile, instrument=27, tempo=0):
 
     quarterNote = 96
+
+    if tempo == 0:
+        tempo = random.choice(range(100, 200))
+        print tempo
 
     chords = {
         0: [midi.C_4, midi.E_4, midi.G_4],
@@ -31,8 +36,12 @@ def toMidi(songString, outfile, instrument=27, tempo=120):
     track.append(midi.ProgramChangeEvent(tick=0, data=[instrument]))
     pattern.append(track)
 
-    tempoData = map(lambda x: int(x, 16), list(hex(tempo).replace("0x", "")))
-    midi.SetTempoEvent(tick=0, data=tempoData)
+    tempoString = hex(60000000/tempo).replace("0x", "")
+    if len(tempoString) < 6:
+        tempoString = "0" + tempoString
+    tempoData = map(lambda x: int(x, 16), [tempoString[i:i+2] for i in range(0, len(tempoString), 2)])
+    print tempoData
+    track.append(midi.SetTempoEvent(tick=0, data=tempoData))
 
     for index, chord in enumerate(chordInput):
         if index > 0 and chord == chordInput[index-1]:
@@ -107,8 +116,6 @@ def toMidi(songString, outfile, instrument=27, tempo=120):
 
     drums.append(midi.EndOfTrackEvent(tick=quarterNote, channel=9))
 
-
-    print pattern
 
     midi.write_midifile(outfile, pattern)
 
