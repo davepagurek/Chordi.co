@@ -16,53 +16,55 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+      <![endif]-->
   </head>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <body data-spy="scroll" data-target=".navbar-collapse">
-    <div class="container" id="topContainer">
-      <div id="graph"></div>
-      <div class="intro wrapper">
-        <h1 class="marginTop">Chordi</h1>
-        <p class="lead">Procedural music, taught with data from real artists</p>
-        <div id="try" class="collapsible">
-          <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
+    <div class="app">
+      <div class="container" id="topContainer">
+        <div id="graph"></div>
+        <div class="intro wrapper">
+          <h1 class="marginTop">Chordi</h1>
+          <p class="lead">Procedural music, taught with data from real artists</p>
+          <div id="try" class="collapsible">
+            <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
+          </div>
+          <div id="settings" class="collapsible" style="height:0">
+            <select id="instrument">
+              <option value="1" selected>Grand Piano</option>
+              <option value="5">Electric Piano</option>
+              <option value="27">Electric Guitar</option>
+              <option value="67">Tenor Sax</option>
+              <option value="105">Sitar</option>
+              <option value="122">Breath Noise</option>
+              <option value="57">Trumpet</option>
+              <option value="49">String Ensemble</option>
+              <option value="102">Goblins</option>
+              <option value="53">Choir Aahs</option>
+              <option value="120">Guitar Slide</option>
+            </select><div class="overlay-arrow">&#9660;</div>
+            <button type="button" id="generate" class="btn btn-default">Generate Music</button>
+          </div>
+          <div id="loading" class="collapsible" style="height:0">
+            <p>Loading...</p>
+          </div>
+          <div id="controls" class="collapsible" style="height:0">
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Play</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
+            <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
+            <button type="button" id="back" class="btn btn-default">Back</button>
+          </div>
+          <audio id="audioElement"></audio>
         </div>
-        <div id="settings" class="collapsible" style="height:0">
-          <select id="instrument">
-            <option value="1" selected>Grand Piano</option>
-            <option value="5">Electric Piano</option>
-            <option value="27">Electric Guitar</option>
-            <option value="67">Tenor Sax</option>
-            <option value="105">Sitar</option>
-            <option value="122">Breath Noise</option>
-            <option value="57">Trumpet</option>
-            <option value="49">String Ensemble</option>
-            <option value="102">Goblins</option>
-            <option value="53">Choir Aahs</option>
-            <option value="120">Guitar Slide</option>
-          </select><div class="overlay-arrow">&#9660;</div>
-          <button type="button" id="generate" class="btn btn-default">Generate Music</button>
-        </div>
-        <div id="loading" class="collapsible" style="height:0">
-          <p>Loading...</p>
-        </div>
-        <div id="controls" class="collapsible" style="height:0">
-          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Play</button>
-          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
-          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
-          <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
-          <button type="button" id="back" class="btn btn-default">Back</button>
-        </div>
-        <audio id="audioElement"></audio>
       </div>
-    </div>
-    <div class="container contentContainer" id="footer">
-      <div class="wrapper">
-        <h2>
+      <div class="container contentContainer" id="footer">
+        <div class="wrapper">
+          <p>
           Find out more!
-          <a href="https://github.com/pahgawk/BeatBot" class="button">View source on GitHub</a>
-        </h1>
+          <a href="https://github.com/pahgawk/BeatBot">View source on GitHub</a>
+          </p>
+        </div>
       </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
