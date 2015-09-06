@@ -216,6 +216,7 @@ $(document).ready(function () {
         viz = "cube";
         svg.attr("display", "none");
         document.getElementById("world").style.display = "block";
+        document.getElementById("world").classList.remove("fadein");
         graph.classList.add("cube");
         graph.classList.remove("graph");
     });

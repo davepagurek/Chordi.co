@@ -188,6 +188,8 @@ select:focus + .overlay-arrow {
   -o-transform-style: preserve-3d;
   width: 0;
   overflow:visible;
+}
+#world.fadein {
   -webkit-animation-duration: 2s;
   animation-duration: 2s;
   -webkit-animation-fill-mode: both;
@@ -195,7 +197,7 @@ select:focus + .overlay-arrow {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
   -webkit-animation-delay: 2s;
-  delay: 2s;
+  delay: 2s; 
 }
 
 #world div {
