@@ -5,8 +5,6 @@ from learn import Learn
 from tomidi import toMidi
 from midi2mp3 import generateMP3
 
-import json
-
 MIDI_TEMP_PATH = 'songs/output.mid'
 FONT_PATH = "GeneralUser GS MuseScore v1.442.sf2"
 MP3_BASE_PATH = 'songs/output'
@@ -16,12 +14,12 @@ app = Flask(__name__)
 def server():
 	return render_template("index.html")
 
-@app.route('/music')
-def music_function():
+@app.route('/music/<int:param>')
+def music_function(param):
     learner = Learn()
     learner.loadFromFile()
     song = learner.getSong(getStartSequence())
-    toMidi(song, MIDI_TEMP_PATH)
+    toMidi(song, MIDI_TEMP_PATH, param)
     mp3Path = getMP3Path()
     generateMP3(MIDI_TEMP_PATH, mp3Path, FONT_PATH)
     return BASE_URL + mp3Path
