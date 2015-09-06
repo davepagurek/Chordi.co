@@ -142,14 +142,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', end
             <option value="67">Tenor Sax</option>
             <option value="105">Sitar</option>
             <option value="122">Breath Noise</option>
+            <option value="57">Trumpet</option>
+            <option value="49">String ensemble</option>
+            <option value="102">Goblins</option>
+            <option value="53">Choir Aahs</option>
           </select>
           <button type="button" id="generate" class="btn btn-default">Generate Music</button>
+        </div>
+        <div id="loading" class="collapsible" style="height:0">
+          <p>Loading...</p>
         </div>
         <div id="controls" class="collapsible" style="height:0">
           <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').play()">Play</button>
           <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').pause()">Pause</button>
           <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume+=0.1">Increase Volume</button>
           <button type="button" class="btn btn-default" onclick="document.getElementById('audioElement').volume-=0.1">Decrease Volume</button>
+          <button type="button" id="back" class="btn btn-default">Back</button>
         </div>
         <audio id="audioElement"></audio>
       </div>
@@ -173,23 +181,48 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', end
       $(document).ready(function () {
         $("#generate").on("click", function() {
           var instrument = $("#instrument").val();
-          $.ajax({method:"GET", url:"http://127.0.0.1:5000/music/"+instrument}).done(function(msg){
-            $("#audioElement").attr("src",msg);
-          });
 
           var container = $("#settings");
           var current = container.height();
           container.css("height", current);
           container.animate({height: 0}, 300, "swing");
 
-          var el = $('#controls'),
+          var el = $('#loading'),
+          autoHeight = el.css('height', 'auto').height();
+          el.height(0).animate({height: autoHeight}, 300, "swing", function() {
+            el.css('height', 'auto');
+          });
+
+          $.ajax({method:"GET", url:"http://127.0.0.1:5000/music/"+instrument}).done(function(msg){
+            $("#audioElement").attr("src",msg);
+
+            var container = $("#loading");
+            var current = container.height();
+            container.css("height", current);
+            container.animate({height: 0}, 300, "swing");
+
+            var el = $('#controls'),
+            autoHeight = el.css('height', 'auto').height();
+            el.height(0).animate({height: autoHeight}, 300, "swing", function() {
+              el.css('height', 'auto');
+            });
+          });
+        });
+        $("#scroll").on("click", function() {
+          var container = $("#try");
+          var current = container.height();
+          container.css("height", current);
+          container.animate({height: 0}, 300, "swing");
+
+          var el = $('#settings'),
           autoHeight = el.css('height', 'auto').height();
           el.height(0).animate({height: autoHeight}, 300, "swing", function() {
             el.css('height', 'auto');
           });
         });
-        $("#scroll").on("click", function() {
-          var container = $("#try");
+        $("#back").on("click", function() {
+          document.getElementById('audioElement').pause()
+          var container = $("#controls");
           var current = container.height();
           container.css("height", current);
           container.animate({height: 0}, 300, "swing");
