@@ -8,6 +8,7 @@ function Shape(options) {
     this.h = options.h || 10;
     this.rotationX = options.rotationX || 0;
     this.rotationY = options.rotationY || 0;
+    this.scale = options.scale || 1;
     this.bg = options.bg || "#000";
     this.border = options.border || "0";
 
@@ -16,7 +17,7 @@ function Shape(options) {
     };
 
     this.update = function() {
-        var t = "translateX(" + this.x + "px) translateY(" + this.y + "px) translateZ(" + this.z + "px) rotateX(" + this.rotationX + "deg) rotateY(" + this.rotationY + "deg)";
+        var t = "translateX(" + this.x + "px) translateY(" + this.y + "px) translateZ(" + this.z + "px) rotateX(" + this.rotationX + "deg) rotateY(" + this.rotationY + "deg) scale3d(" + this.scale + ", " + this.scale + ", " + this.scale + ")";
         shapeDiv.style.webkitTransform = t;
         shapeDiv.style.MozTransform = t;
         shapeDiv.style.oTransform = t;
@@ -43,6 +44,7 @@ function ShapeGroup(options) {
     this.z = options.z || 0;
     this.rotationX = options.rotationX || 0;
     this.rotationY = options.rotationY || 0;
+    this.scale = options.scale || 1;
     var shapes = [];
     if (options.shapes) {
         shapes = options.shapes;
@@ -78,7 +80,7 @@ function ShapeGroup(options) {
     };
 
     this.update = function() {
-        var t = "translateX(" + this.x + "px) translateY(" + this.y + "px) translateZ(" + this.z + "px) rotateX(" + this.rotationX + "deg) rotateY(" + this.rotationY + "deg)";
+        var t = "translateX(" + this.x + "px) translateY(" + this.y + "px) translateZ(" + this.z + "px) rotateX(" + this.rotationX + "deg) rotateY(" + this.rotationY + "deg) scale3d(" + this.scale + ", " + this.scale + ", " + this.scale + ")";
         groupDiv.style.webkitTransform = t;
         groupDiv.style.MozTransform = t;
         groupDiv.style.oTransform = t;
