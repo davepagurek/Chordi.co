@@ -42,59 +42,57 @@ $(document).ready(function () {
     //var frequencyData = new Uint8Array(analyser.frequencyBinCount);
     var frequencyData = new Uint8Array(200);
 
-    function createSvg(parent, height, width) {
-        return d3.select(parent).append('svg').attr('height', svgHeight).attr('width', svgWidth);
-    }
 
-    var graph = document.getElementById('graph');
-    var svgHeight = graph.offsetHeight;
-    var svgWidth = graph.offsetWidth;
-    var barPadding = 1;
-    var svg = createSvg('#graph', svgHeight, svgWidth);
+    var scene = new CSS3D();
+    var planeBg = "rgba(255, 255, 255, 0.2)";
+    var planeBorder = "0";
 
-    // Create our initial D3 chart.
-    svg.selectAll('rect')
-    .data(frequencyData)
-    .enter()
-    .append('rect')
-    .attr('fill', 'rgba(255,255,255,0.6)')
-    .attr('x', function (d, i) {
-        return i * (svgWidth / frequencyData.length);
-    })
-    .attr('height', svgHeight).attr('width', svgWidth);
-
-    $(window).on("resize", function() {
-        svgHeight = graph.offsetHeight;
-        svgWidth = graph.offsetWidth;
-        svg.attr('height', svgHeight).attr('width', svgWidth);
+    var plane1 = new Shape({
+        x: 0, y: 0, z: 0, w: 100, h: 100, rotationX: 90, rotationY: 0,
+        bg: planeBg, border: planeBorder
     });
+    var plane2 = new Shape({
+        x: -50, y: -50, z: 0, w: 100, h: 100, rotationX: 0, rotationY: 90,
+        bg: planeBg, border: planeBorder
+    });
+    var plane3 = new Shape({
+        x: 50, y: -50, z: 0, w: 100, h: 100, rotationX: 0, rotationY: 90,
+        bg: planeBg, border: planeBorder
+    });
+    var plane4 = new Shape({
+        x: 0, y: -100, z: 0, w: 100, h: 100, rotationX: 90, rotationY: 0,
+        bg: planeBg, border: planeBorder
+    });
+    var plane5 = new Shape({
+        x: 0, y: -50, z: -50, w: 100, h: 100, rotationX: 0, rotationY: 0,
+        bg: planeBg, border: planeBorder
+    });
+    var plane6 = new Shape({
+        x: 0, y: -50, z: 50, w: 100, h: 100, rotationX: 0, rotationY: 0,
+        bg: planeBg, border: planeBorder
+    });
+    var cube = new ShapeGroup({
+        x: -50, y: 0, z: 0,
+        shapes: [plane1, plane2, plane3, plane4, plane5, plane6]
+    })
+    scene.addGroup(cube);
+
 
     // Continuously loop and update chart with frequency data.
-    function renderChart() {
+    function renderViz() {
 
         // Copy frequency data to frequencyData array.
         analyser.getByteFrequencyData(frequencyData);
         //console.log(frequencyData);
 
-        // Update d3 chart with new data.
-        svg.selectAll('rect')
-        .data(frequencyData)
-        .attr('y', function(d) {
-            return svgHeight - d/280 * svgHeight;
-        })
-        .attr('x', function (d, i) {
-            return i * (svgWidth / frequencyData.length);
-        })
-        .attr('height', function(d) {
-            return d/280 * svgHeight;
-        })
-        .attr('width', svgWidth / frequencyData.length - barPadding);
+        scene.worldRotationY += 0.5;
+        scene.updateView();
 
-        requestAnimationFrame(renderChart);
+        requestAnimationFrame(renderViz);
 
     }
 
     // Run the loop
-    renderChart();
+    renderViz();
 
 });
