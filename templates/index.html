@@ -57,6 +57,10 @@
             <a id="downloadButton" class="button" target="_blank">Download <i class="fa fa-arrow-circle-down"></i></a>
             <button type="button" id="shuffleButton" class="btn btn-default">Shuffle</button>
             <button type="button" id="back" class="btn btn-default">Back</button>
+            <form action="upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" multiple>
+        <input type="submit">
+      </form>
           </div>
           <audio id="audioElement"></audio>
         </div>

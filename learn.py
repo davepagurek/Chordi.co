@@ -19,23 +19,31 @@ from pybrain.tools.xml.networkreader import NetworkReader
 import random
 import pdb
 import static
+import os
 
 TRAINED_DATA_FILEPATH_MAJOR = 'trained-major.data'
 TRAINED_DATA_FILEPATH_MINOR = 'trained-minor.data'
+TRAINED_DATA_FILEPATH = 'trained.data'
 
 class Learn:
 
-    def __init__(self, mode):
+    def __init__(self, mode = 'major', directory = ''):
         self.net = None
+        self.directory = directory
         self.major = True
         if mode == "minor":
             self.major = False
 
     def train(self):
+        folder = self.directory
+        if self.directory == '':
+            folder = "training/major"
+            if not self.major:
+                folder = "training/minor"
 
         n = FeedForwardNetwork()
 
-        dataModel = SongFactory(self.major).getModels()
+        dataModel = SongFactory(folder).getModels()
 
         ds = SupervisedDataSet(static.NUM_OF_INPUTS, 1)
 
@@ -121,10 +129,13 @@ class Learn:
     # Save trained data to file for later usage
     def saveToFile(self):
         if self.net is not None:
-            if self.major:
-                NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH_MAJOR)
+            if self.directory == '':
+                if self.major:
+                    NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH_MAJOR)
+                else:
+                    NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH_MINOR)
             else:
-                NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH_MINOR)
+                NetworkWriter.writeToFile(self.net, os.path.join(self.directory, TRAINED_DATA_FILEPATH))
 
         else:
             print "Cannot save nothing"
@@ -132,10 +143,13 @@ class Learn:
     # Load trained data from file
     def loadFromFile(self):
         try:
-            if self.major:
-                self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH_MAJOR)
+            if self.directory == '':
+                if self.major:
+                    self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH_MAJOR)
+                else:
+                    self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH_MINOR)
             else:
-                self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH_MINOR)
+                self.net = NetworkReader.readFrom(os.path.join(self.directory, TRAINED_DATA_FILEPATH))
 
         except:
             print "Could not find or open file"

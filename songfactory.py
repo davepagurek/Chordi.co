@@ -2,12 +2,11 @@ from os import listdir
 from model import SongModel
 import pdb
 class SongFactory:
-    def __init__(self, major=True):
-        folder = "training/major"
-        if not major:
-            folder = "training/minor"
+    def __init__(self, folder):
+        print folder
         files =  listdir(folder)
         self.models = []
+        print files
         for x in files:
             if x != '.DS_Store':
                 print("Working on %s" % x)

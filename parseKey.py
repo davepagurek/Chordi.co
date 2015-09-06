@@ -188,16 +188,20 @@ class Song:
             return Song.notes[index]
         else:
             return "undef: " + str(index)
-    def save(self):
-        f = open("training/"+self.name+".txt",'w')
+    def save(self, directory = ''):
+        f = None
+        if directory == '':
+            f = open("training/"+self.name+".txt",'w')
+        else:
+            f = open(directory + '/' + self.name + '.txt', 'w')
         f.write(self.dataString())
         f.close()
 
-
-for folder in ["major", "minor"]:
-    files = listdir("midi/"+folder)
-    for x in files:
-        if x != '.DS_Store':
-            print("Working on %s" % x)
-            song = Song(folder+"/"+x)
-            song.save()
+if __name__ == '__main__':
+    for folder in ["major", "minor"]:
+        files = listdir("midi/"+folder)
+        for x in files:
+            if x != '.DS_Store':
+                print("Working on %s" % x)
+                song = Song(folder+"/"+x)
+                song.save()
