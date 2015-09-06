@@ -8,7 +8,7 @@ import json
 
 MIDI_TEMP_PATH = 'songs/output.mid'
 MP3_TEMP_PATH = 'songs/output.mp3'
-FONT_PATH = 'Gort\'s-DoubleDecker_J1.SF2'
+FONT_PATH = "GeneralUser GS MuseScore v1.442.sf2"
 BASE_URL = 'http://127.0.0.1:5000/'
 app = Flask(__name__)
 @app.route('/')

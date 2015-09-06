@@ -5,4 +5,4 @@ def generateMP3(inputpath, outputpath, fontpath):
     subprocess.call(["rm","output.wav"])
 
 if __name__ == "__main__":
-    generateMP3("output.mid","output.mp3","Gort\'s-DoubleDecker_J1.SF2")
+    generateMP3("output.mid","output.mp3","GeneralUser GS MuseScore v1.442.sf2")
