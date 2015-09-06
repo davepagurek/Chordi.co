@@ -85,7 +85,7 @@ class Learn:
         trainer.trainEpochs(25)
 
     #generate a song given an input sequence
-    def getSong(self, inputSequence, songLength = 64):
+    def getSong(self, inputSequence, songLength = 128):
         if self.net is None:
             print "Cannot create from nothing"
             return
