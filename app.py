@@ -16,19 +16,19 @@ app = Flask(__name__)
 def server():
 	return render_template("index.html")
 
-@app.route('/music/<int:param>')
-def music_function(param):
-    learner = Learn()
+@app.route('/music/<int:instrument>/<string:mode>')
+def music_function(instrument, mode):
+    learner = Learn(mode)
     learner.loadFromFile()
     song = learner.getSong(getStartSequence())
-    toMidi(song, MIDI_TEMP_PATH, param)
+    toMidi(song, MIDI_TEMP_PATH, instrument)
     mp3Path = getMP3Path()
     generateMP3(MIDI_TEMP_PATH, mp3Path, FONT_PATH)
     return mp3Path
 
-@app.route('/train')
-def train_function():
-    learner = Learn()
+@app.route('/train/<string:mode>')
+def train_function(mode):
+    learner = Learn(mode)
     learner.train()
     learner.saveToFile()
     return server()

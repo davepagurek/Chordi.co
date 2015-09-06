@@ -1,5 +1,6 @@
 import midi
 import music21
+from os import listdir
 
 class Song:
     majorMap = {
@@ -192,7 +193,11 @@ class Song:
         f.write(self.dataString())
         f.close()
 
-twinkle = Song("wat.mid")
-print twinkle.key
-print twinkle.dataString()
 
+for folder in ["major", "minor"]:
+    files = listdir("midi/"+folder)
+    for x in files:
+        if x != '.DS_Store':
+            print("Working on %s" % x)
+            song = Song(folder+"/"+x)
+            song.save()

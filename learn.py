@@ -20,18 +20,22 @@ import random
 import pdb
 import static
 
-TRAINED_DATA_FILEPATH = 'trained.data'
+TRAINED_DATA_FILEPATH_MAJOR = 'trained-major.data'
+TRAINED_DATA_FILEPATH_MINOR = 'trained-minor.data'
 
 class Learn:
 
-    def __init__(self):
+    def __init__(self, mode):
         self.net = None
+        self.major = True
+        if mode == "minor":
+            self.major = False
 
     def train(self):
 
         n = FeedForwardNetwork()
 
-        dataModel = SongFactory().getModels()
+        dataModel = SongFactory(self.major).getModels()
 
         ds = SupervisedDataSet(static.NUM_OF_INPUTS, 1)
 
@@ -117,7 +121,10 @@ class Learn:
     # Save trained data to file for later usage
     def saveToFile(self):
         if self.net is not None:
-            NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH)
+            if self.major:
+                NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH_MAJOR)
+            else:
+                NetworkWriter.writeToFile(self.net, TRAINED_DATA_FILEPATH_MINOR)
 
         else:
             print "Cannot save nothing"
@@ -125,15 +132,19 @@ class Learn:
     # Load trained data from file
     def loadFromFile(self):
         try:
-            self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH)
+            if self.major:
+                self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH_MAJOR)
+            else:
+                self.net = NetworkReader.readFrom(TRAINED_DATA_FILEPATH_MINOR)
 
         except:
             print "Could not find or open file"
 
-def run():
-    learner = Learn()
+def run(mode):
+    learner = Learn(mode)
     learner.loadFromFile()
     learner.getSong([0, 2 ,4 ,0], 128)
 
 if __name__ == "__main__":
-    run()
+    run("major")
+    run("minor")

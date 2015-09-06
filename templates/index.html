@@ -30,7 +30,7 @@
             <button id="scroll" type="button" class="btn btn-default">Try it now!</button>
           </div>
           <div id="settings" class="collapsible" style="height:0">
-            <select id="instrument">
+            <select id="instrument" style="width:200px">
               <option value="1" selected>Grand Piano</option>
               <option value="5">Electric Piano</option>
               <option value="27">Electric Guitar</option>
@@ -42,6 +42,10 @@
               <option value="102">Goblins</option>
               <option value="53">Choir Aahs</option>
               <option value="120">Guitar Slide</option>
+            </select><div class="overlay-arrow">&#9660;</div>
+            <select id="mode" style="width:100px">
+              <option value="major" selected>Major</option>
+              <option value="minor">Minor</option>
             </select><div class="overlay-arrow">&#9660;</div>
             <button type="button" id="generate" class="btn btn-default">Generate Music</button>
           </div>
