@@ -21,7 +21,9 @@
   <body data-spy="scroll" data-target=".navbar-collapse">
     <div class="app">
       <div class="container" id="topContainer">
-        <div id="graph"></div>
+        <div id="viewport" class="cube">
+          <div id="world"></div>
+        </div>
         <div class="intro wrapper">
           <h1 class="marginTop">Chordi</h1>
           <p class="lead">Procedural music, taught with data from real artists</p>
@@ -60,6 +62,11 @@
           </div>
           <audio id="audioElement"></audio>
         </div>
+        <div id="viz">
+          Visualization:
+          <a id="cube">Cube</a> | 
+          <a id="graph">Graph</a>
+        </div>
       </div>
       <div class="container contentContainer" id="footer">
         <div class="wrapper">
@@ -73,6 +80,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/3d.js" type="text/javascript"></script>
     <script src="js/viz.js" type="text/javascript"></script>
   </body>
 </html>

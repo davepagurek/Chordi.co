@@ -111,7 +111,21 @@ select:focus + .overlay-arrow {
   width:100%;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
+  padding: 20px 0 40px 0;
+  position:relative;
+}
+#viz {
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size:12px;
+}
+#viz a {
+  color:#FFF;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration:underline;
 }
 .intro {
   position:relative;
@@ -123,12 +137,18 @@ select:focus + .overlay-arrow {
   padding: 10px;
   font-size: 16px;
 }
-#graph {
+#viewport {
   position:absolute;
   top:0;
   left:0;
   right:0;
   bottom:0;
+
+  -webkit-perspective: 400; 
+  -moz-perspective: 400; 
+  -o-perspective:400;
+  perspective:400;
+  overflow: hidden;
 
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7c756+0,d13884+100 */
   background: #f7c756; /* Old browsers */
@@ -141,15 +161,34 @@ select:focus + .overlay-arrow {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7c756', endColorstr='#d13884',GradientType=0 ); /* IE6-9 */
 
 }
-#graph svg {
+#viewport svg {
   position:absolute;
   top:0;
   left:0;
   right:0;
   bottom:0;
 }
-.marginBottom {
-  margin-bottom: 30px;
+#world {
+  background-color:none;
+  height: 0;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  width: 0;
+  overflow:visible;
+}
+
+#world div {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  position:absolute;
+  overflow:visible;
 }
 .collapsible {
   overflow: hidden;
