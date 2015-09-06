@@ -20,6 +20,7 @@ $(document).ready(function () {
 
         $.ajax({method:"GET", url:"music/"+instrument+"/"+mode}).done(function(msg){
             $("#audioElement").attr("src",msg);
+            $("#downloadButton").attr("download", msg);
             $("#downloadButton").attr("href", msg);
             swapControls("#loading", "#controls");
         });
