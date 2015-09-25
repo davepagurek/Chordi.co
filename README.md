@@ -1,5 +1,5 @@
-# BeatBot
-Procedural music, taught with data from real artists
+# Chordi.co
+Procedural music, taught with data from real artists. <a href="http://chordi.co">Live demo</a>
 
 ## Dependencies
 Check requirements.txt for python dependencies
